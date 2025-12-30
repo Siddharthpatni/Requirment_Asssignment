@@ -338,24 +338,40 @@ Safety subset for C programming.
 
 
 
-graph TD
-    Start((Start)) --> Init[out = in]
-    Init --> Dec1{in >= ALARM?}
-    
-    Dec1 -- Yes --> Set0[out = 0]
-    Set0 --> Return((Return out))
-    
-    Dec1 -- No --> Dec2{in > WARN?}
-    
-    Dec2 -- Yes --> Inc[count++]
-    Inc --> Dec3{count > MAX?}
-    
-    Dec3 -- Yes --> Limit[out = WARN]
-    Limit --> Return
-    Dec3 -- No --> Return
-    
-    Dec2 -- No --> Reset[count = 0]
-    Reset --> Return
+## graph TD
 
+## Start((Start)) --> Init[out = in]
+
+## Init --> Dec1{in >= ALARM?}
+
+    
+
+## Dec1 -- Yes --> Set0[out = 0]
+
+## Set0 --> Return((Return out))
+
+    
+
+## Dec1 -- No --> Dec2{in > WARN?}
+
+    
+
+## Dec2 -- Yes --> Inc[count++]
+
+## Inc --> Dec3{count > MAX?}
+
+    
+
+## Dec3 -- Yes --> Limit[out = WARN]
+
+## Limit --> Return
+
+## Dec3 -- No --> Return
+
+    
+
+## Dec2 -- No --> Reset[count = 0]
+
+## Reset --> Return
 
 
