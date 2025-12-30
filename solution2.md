@@ -179,30 +179,57 @@ short int limiter_delay(short int in) {
 }
 ```
 
-### b) Control Flow Diagram (CFD), Coverage & Test Cases
+### b) Control Flow Graph (CFG), Coverage & Test Cases
 
-**Control Flow Diagram:**
+#### Control Flow Graph (CFG)
+
+A **Control Flow Graph** visualizes all possible execution paths through a function. Each node represents a statement or decision, and edges represent the flow of control.
+
+**Node Legend:**
+- **Oval nodes** `(( ))` = Entry/Exit points (Start, Return)
+- **Rectangle nodes** `[ ]` = Process/Statement blocks (assignments, operations)
+- **Diamond nodes** `{ }` = Decision points (if conditions)
+- **Edges** = Control flow direction (True/False branches labeled)
 
 ```mermaid
 graph TD
-    Start((Start)) --> Init[out = in]
-    Init --> Dec1{in >= ALARM?}
+    S((Entry)) --> N1["N1: out = in"]
+    N1 --> D1{"D1: in >= ALARM?"}
     
-    Dec1 -- Yes --> Set0[out = 0]
-    Set0 --> Return((Return out))
+    D1 -- True --> N2["N2: out = 0"]
+    N2 --> E((Exit: return out))
     
-    Dec1 -- No --> Dec2{in > WARN?}
+    D1 -- False --> D2{"D2: in > WARN?"}
     
-    Dec2 -- Yes --> Inc[count++]
-    Inc --> Dec3{count > MAX?}
+    D2 -- True --> N3["N3: count++"]
+    N3 --> D3{"D3: count > MAX_CYCLE?"}
     
-    Dec3 -- Yes --> Limit[out = WARN]
-    Limit --> Return
-    Dec3 -- No --> Return
+    D3 -- True --> N4["N4: out = WARN"]
+    N4 --> E
+    D3 -- False --> E
     
-    Dec2 -- No --> Reset[count = 0]
-    Reset --> Return
+    D2 -- False --> N5["N5: count = 0"]
+    N5 --> E
 ```
+
+#### CFG Path Analysis
+
+The graph contains **4 distinct execution paths**:
+
+| Path | Nodes Visited | Condition | Description |
+|:---|:---|:---|:---|
+| **P1** | S → N1 → D1(T) → N2 → E | `in >= 100` | **Emergency Shutdown**: Input exceeds alarm threshold |
+| **P2** | S → N1 → D1(F) → D2(T) → N3 → D3(T) → N4 → E | `50 < in < 100` & `count > 5` | **Delayed Limiting**: Warning persisted too long |
+| **P3** | S → N1 → D1(F) → D2(T) → N3 → D3(F) → E | `50 < in < 100` & `count <= 5` | **Warning Count**: Still within grace period |
+| **P4** | S → N1 → D1(F) → D2(F) → N5 → E | `in <= 50` | **Normal Operation**: Reset counter, pass-through |
+
+#### Coverage Metrics
+
+| Metric | Requirement | This CFG |
+|:---|:---|:---|
+| **Statement Coverage (C0)** | Execute every node | Must visit: N1, N2, N3, N4, N5 |
+| **Branch Coverage (C1)** | Take every edge (T/F) | Must cover: D1-T, D1-F, D2-T, D2-F, D3-T, D3-F |
+| **Path Coverage** | Execute every path | Must execute: P1, P2, P3, P4 |
 
 **Required Coverage:** The solution explicitly lists **Branch Coverage** as "strongly recommended" for this task (SIL 3 context in this specific exam).
 
