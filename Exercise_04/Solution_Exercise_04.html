@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-Scooter Ride-Share System - AOM Solution</title>
+    <title>Urban Mobility E-Scooter Platform - AOM Solution</title>
     <style>
         * {
             margin: 0;
@@ -33,104 +33,98 @@
         }
 
         h1 {
-            color: #1a5f7a;
-            font-size: 24px;
+            color: #2c3e50;
+            font-size: 22px;
             margin-bottom: 10px;
-            border-bottom: 3px solid #1a5f7a;
+            border-bottom: 3px solid #2c3e50;
             padding-bottom: 10px;
         }
 
         h2 {
-            color: #2d3748;
-            font-size: 18px;
-            margin-top: 25px;
-            margin-bottom: 10px;
-            border-left: 4px solid #57a773;
+            color: #34495e;
+            font-size: 16px;
+            margin-top: 20px;
+            margin-bottom: 8px;
+            border-left: 4px solid #27ae60;
             padding-left: 10px;
         }
 
         h3 {
             color: #4a5568;
-            font-size: 14px;
-            margin-top: 15px;
-            margin-bottom: 8px;
+            font-size: 13px;
+            margin-top: 12px;
+            margin-bottom: 6px;
         }
 
         .header-info {
-            background: #f7fafc;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 12px;
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 11px;
+            border-left: 4px solid #2c3e50;
         }
 
         .header-info p {
-            margin: 3px 0;
+            margin: 2px 0;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 15px 0;
-            font-size: 12px;
+            margin: 12px 0;
+            font-size: 11px;
         }
 
         th,
         td {
-            border: 1px solid #e2e8f0;
-            padding: 10px;
+            border: 1px solid #ddd;
+            padding: 8px;
             text-align: left;
         }
 
         th {
-            background: #1a5f7a;
+            background: #2c3e50;
             color: white;
             font-weight: 600;
         }
 
         tr:nth-child(even) {
-            background: #f7fafc;
+            background: #f8f9fa;
         }
 
-        .goal-list {
-            margin: 10px 0;
-        }
-
-        .goal-list li {
+        .objective-list {
             margin: 8px 0;
-            padding-left: 10px;
-            list-style: none;
+            padding-left: 20px;
         }
 
-        .goal-list li::before {
-            content: "•";
-            color: #57a773;
-            font-weight: bold;
-            margin-right: 10px;
+        .objective-list li {
+            margin: 6px 0;
+            font-size: 11px;
         }
 
         .formula-box {
-            background: #edf2f7;
-            border: 2px solid #1a5f7a;
-            border-radius: 8px;
-            padding: 15px;
-            margin: 15px 0;
+            background: #e8f4fd;
+            border: 2px solid #2c3e50;
+            border-radius: 6px;
+            padding: 12px;
+            margin: 12px 0;
             text-align: center;
         }
 
         .formula {
             font-family: 'Times New Roman', serif;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: bold;
-            color: #1a5f7a;
+            color: #2c3e50;
         }
 
         .diagram-container {
             text-align: center;
-            margin: 20px 0;
-            padding: 15px;
-            background: #f7fafc;
-            border-radius: 8px;
+            margin: 15px 0;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 6px;
         }
 
         .diagram-container img {
@@ -139,197 +133,199 @@
         }
 
         .diagram-caption {
-            font-size: 12px;
+            font-size: 10px;
             color: #666;
-            margin-top: 10px;
+            margin-top: 8px;
             font-style: italic;
         }
 
         .legend {
-            background: #f7fafc;
-            padding: 10px 15px;
-            border-radius: 8px;
-            margin: 10px 0;
-            font-size: 11px;
-        }
-
-        .legend-item {
-            display: inline-block;
-            margin-right: 15px;
+            background: #f8f9fa;
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin: 8px 0;
+            font-size: 10px;
         }
 
         .summary-box {
-            background: linear-gradient(135deg, #1a5f7a 0%, #57a773 100%);
+            background: linear-gradient(135deg, #2c3e50 0%, #27ae60 100%);
             color: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 20px;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 15px;
+            font-size: 11px;
         }
 
         .summary-box h2 {
             color: white;
             border-left-color: white;
+            font-size: 14px;
         }
 
         .summary-box ul {
-            margin-left: 20px;
+            margin-left: 15px;
         }
 
         .summary-box li {
-            margin: 5px 0;
+            margin: 4px 0;
+        }
+
+        .workflow-steps {
+            font-size: 11px;
+            margin: 8px 0;
+        }
+
+        .workflow-steps li {
+            margin: 4px 0;
         }
     </style>
 </head>
 
 <body>
-    <h1>Solution for Exercise 04: E-Scooter Ride-Share System</h1>
+    <h1>Exercise 04: Urban Mobility E-Scooter Platform</h1>
 
     <div class="header-info">
-        <p><strong>TU Clausthal</strong> | Institut für Software and Systems Engineering</p>
-        <p><strong>Course:</strong> Requirements Engineering | <strong>Exercise:</strong> 04 (Agent-Oriented Modeling)
+        <p><strong>TU Clausthal</strong> | Institute: Software and Systems Engineering</p>
+        <p><strong>Module:</strong> Requirements Engineering | <strong>Assignment:</strong> 04 – Agent-Oriented Modeling
         </p>
-        <p><strong>Submitted By:</strong> Siddharth D. Patni (sp01) | <strong>Date:</strong> 11.01.2026</p>
+        <p><strong>Author:</strong> Siddharth D. Patni (sp01) | <strong>Date:</strong> 11.01.2026</p>
     </div>
 
-    <h2>1. Agents and Roles</h2>
-    <p>Based on the project scenario, the system involves the interaction between the commuter, the physical scooter,
-        and the backend service.</p>
+    <h2>1. System Actors and Responsibilities</h2>
+    <p style="font-size: 11px; margin-bottom: 8px;">After analyzing the ride-share scenario, I identified three actors
+        collaborating to deliver the service:</p>
 
     <table>
         <thead>
             <tr>
-                <th>Agent</th>
-                <th>Assigned Role</th>
-                <th>Description</th>
+                <th>Actor Type</th>
+                <th>Role Name</th>
+                <th>Core Responsibilities</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>Commuter (Human)</td>
-                <td>Commuter Role</td>
-                <td>Responsible for the user-side process: registering, reserving the scooter, riding safely, and
-                    authorizing payment.</td>
+                <td>End User (Human)</td>
+                <td>Rider</td>
+                <td>Initiates rental: signs up, picks vehicle, travels, approves charge</td>
             </tr>
             <tr>
-                <td>E-Scooter (Hardware)</td>
-                <td>Fleet Manager Role</td>
-                <td>Handles the physical state of the vehicle (locking/unlocking) and reports real-time status
-                    (Idle/Reserved) and location.</td>
+                <td>Physical Device (IoT)</td>
+                <td>Vehicle Controller</td>
+                <td>Governs hardware: motor control, GPS tracking, availability updates</td>
             </tr>
             <tr>
-                <td>Backend System (Software)</td>
-                <td>Payment Processor Role</td>
-                <td>Manages the logic for account verification, fee computation, and secure financial debiting.</td>
+                <td>Cloud Service (Software)</td>
+                <td>Billing Engine</td>
+                <td>Handles validation, duration tracking, fare calculation, fund transfer</td>
             </tr>
         </tbody>
     </table>
 
-    <h2>2. Goals</h2>
+    <h2>2. System Objectives</h2>
 
-    <h3>Functional Goals (FG)</h3>
-    <ul class="goal-list">
-        <li><strong>FG-01 (Registration):</strong> The system shall allow new commuters to register by validating their
-            personal identity and payment details.</li>
-        <li><strong>FG-02 (Reservation):</strong> The Commuter shall be able to locate an idle scooter and reserve it,
-            changing its status to prevent other users from booking it.</li>
-        <li><strong>FG-03 (Commute):</strong> The Commuter shall be able to unlock the specific scooter and ride to
-            their destination.</li>
-        <li><strong>FG-04 (End Ride):</strong> The system shall detect when the user terminates the ride and immediately
-            lock the scooter.</li>
-        <li><strong>FG-05 (Payment):</strong> The system shall automatically calculate the final fee and debit the
-            registered payment method without manual intervention.</li>
+    <h3>Functional Objectives</h3>
+    <ul class="objective-list">
+        <li><strong>FO-01 (Onboarding):</strong> New riders complete signup with credential and card verification before
+            activation.</li>
+        <li><strong>FO-02 (Vehicle Claim):</strong> Riders browse nearby vehicles via app map, claim one—instantly
+            marking it unavailable.</li>
+        <li><strong>FO-03 (Trip Execution):</strong> Once claimed, vehicle motor activates for travel to destination.
+        </li>
+        <li><strong>FO-04 (Trip Termination):</strong> Parking and tapping "End" triggers motor shutdown and GPS
+            location update.</li>
+        <li><strong>FO-05 (Automated Billing):</strong> Platform computes charges and processes transaction without
+            manual input.</li>
     </ul>
 
-    <h3>Quality Goals (QG)</h3>
-    <ul class="goal-list">
-        <li><strong>QG-01 (Data Accuracy):</strong> The status of all scooters (Idle vs. Reserved) must be updated in
-            real-time to avoid synchronization errors.</li>
-        <li><strong>QG-02 (Billing Precision):</strong> The ride fee calculation must be mathematically precise based on
-            the exact duration recorded by the backend.</li>
-        <li><strong>QG-03 (Security):</strong> Commuter payment details must be stored securely and only accessed during
-            the automatic debit process.</li>
+    <h3>Quality Objectives</h3>
+    <ul class="objective-list">
+        <li><strong>QO-01 (Live Inventory):</strong> Vehicle availability reflects real-world status within seconds.
+        </li>
+        <li><strong>QO-02 (Accurate Charges):</strong> Fare uses server-recorded timestamps for precise billing.</li>
+        <li><strong>QO-03 (Data Protection):</strong> Payment credentials remain encrypted, accessed only during debit.
+        </li>
     </ul>
 
-    <h2>3. Ride Cost Computation</h2>
-    <p>The system implements a <strong>Time-Based pricing strategy</strong>.</p>
+    <h2>3. Fare Calculation Logic</h2>
+    <p style="font-size: 11px; margin-bottom: 8px;">I chose a duration-based pricing model for simplicity and fairness.
+    </p>
 
     <div class="formula-box">
-        <p class="formula">TotalFee = UnlockFee + (Duration<sub>minutes</sub> × Rate<sub>min</sub>)</p>
+        <p class="formula">TripCost = StartFee + (Minutes × PerMinuteRate)</p>
     </div>
 
     <table>
         <thead>
             <tr>
-                <th>Variable</th>
-                <th>Description</th>
-                <th>Example</th>
+                <th>Component</th>
+                <th>Meaning</th>
+                <th>Sample Value</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>UnlockFee</td>
-                <td>A fixed starting fee</td>
+                <td>StartFee</td>
+                <td>One-time unlock charge</td>
                 <td>€1.00</td>
             </tr>
             <tr>
-                <td>Duration</td>
-                <td>Time difference between Unlock and End Ride (rounded up)</td>
-                <td>15 minutes</td>
+                <td>Minutes</td>
+                <td>Elapsed time from unlock to lock</td>
+                <td>Variable</td>
             </tr>
             <tr>
-                <td>Rate</td>
-                <td>Per-minute usage cost</td>
+                <td>PerMinuteRate</td>
+                <td>Ongoing usage charge</td>
                 <td>€0.20</td>
             </tr>
         </tbody>
     </table>
+    <p style="font-size: 11px;"><strong>Example:</strong> 12-minute trip = €1.00 + (12 × €0.20) = <strong>€3.40</strong>
+    </p>
 
-    <h2>4. AOM Behavioral Interface Model (BIM)</h2>
-    <p>The Behavioral Interface Model illustrates the dynamic interaction between roles, consistent with the Leaf Goals
-        defined in the Goal Model.</p>
+    <h2>4. Behavioral Interface Model (BIM)</h2>
 
-    <h3>Process Flow:</h3>
-    <ol style="margin: 10px 0 10px 20px; font-size: 13px;">
-        <li><strong>Registration/Reservation:</strong> The Commuter creates an account or reserves an Idle scooter.</li>
-        <li><strong>Unlock:</strong> Upon successful reservation, the Fleet Manager unlocks the hardware.</li>
-        <li><strong>Commute:</strong> The Commuter uses the vehicle.</li>
-        <li><strong>End Ride:</strong> The user ends the session, prompting the Fleet Manager to lock the device.</li>
-        <li><strong>Payment:</strong> The Payment Processor calculates the fee and debits the account.</li>
+    <h3>Workflow Narrative</h3>
+    <ol class="workflow-steps">
+        <li><strong>Account Setup:</strong> First-time user registers with payment info</li>
+        <li><strong>Vehicle Selection:</strong> Rider claims available scooter through app</li>
+        <li><strong>Travel Phase:</strong> Vehicle Controller unlocks motor; rider travels</li>
+        <li><strong>Session Close:</strong> Rider ends trip; Controller locks hardware</li>
+        <li><strong>Settlement:</strong> Billing Engine calculates duration-based fare and charges card</li>
     </ol>
 
     <div class="diagram-container">
         <img src="BIM_State_Diagram.png" alt="BIM State Diagram">
-        <p class="diagram-caption">Figure 1: Behavioral Interface Model - State Diagram showing ride lifecycle</p>
+        <p class="diagram-caption">Figure 1: Behavioral Interface Model – State transitions in rental lifecycle</p>
     </div>
 
     <div class="page-break"></div>
 
-    <h2>5. Goal Hierarchy Diagram (3-Level Tree)</h2>
-    <p>The following diagram shows the hierarchical decomposition of goals with 3 levels as required by the assignment.
-    </p>
+    <h2>5. Objective Hierarchy Diagram (3 Tiers)</h2>
+    <p style="font-size: 11px; margin-bottom: 8px;">This diagram shows goal decomposition from platform mission to
+        leaf-level tasks:</p>
 
     <div class="diagram-container">
         <img src="Goal_Hierarchy_Diagram.png" alt="Goal Hierarchy Diagram">
-        <p class="diagram-caption">Figure 2: AOM Goal Model - 3-Level Hierarchy</p>
+        <p class="diagram-caption">Figure 2: AOM Goal Model – Three-tier hierarchy</p>
     </div>
 
     <div class="legend">
-        <strong>Diagram Legend:</strong>
-        <span class="legend-item">🔵 Level 1 (Blue): Main System Goal</span>
-        <span class="legend-item">🟢 Level 2 (Green): Sub-Goals</span>
-        <span class="legend-item">🟡 Level 3 (Yellow): Functional Goals</span>
-        <span class="legend-item">🟢 Level 3 (Light Green): Quality Goals</span>
+        <strong>Color Key:</strong>
+        <span style="margin-left: 10px;">🔵 Tier 1: Platform mission</span>
+        <span style="margin-left: 10px;">🟢 Tier 2: Capability areas</span>
+        <span style="margin-left: 10px;">🟡 Tier 3: Leaf objectives</span>
     </div>
 
     <div class="summary-box">
-        <h2>Summary</h2>
-        <p>This solution presents a comprehensive Agent-Oriented Model for an E-Scooter Ride-Share System:</p>
+        <h2>Closing Remarks</h2>
+        <p>This solution models a real-world urban mobility scenario using agent-oriented principles:</p>
         <ul>
-            <li>Three primary agents with distinct roles (Commuter, Fleet Manager, Payment Processor)</li>
-            <li>Functional and quality goals ensuring system effectiveness and reliability</li>
-            <li>A transparent time-based pricing model with clear formula</li>
-            <li>A behavioral interface model illustrating the complete ride lifecycle</li>
-            <li>A 3-level goal hierarchy diagram showing goal decomposition</li>
+            <li>Three-role decomposition mirrors actual platform architecture</li>
+            <li>Functional and quality objectives ensure comprehensive coverage</li>
+            <li>Time-based billing keeps the model practical</li>
+            <li>BIM illustrates complete rental lifecycle state flow</li>
         </ul>
     </div>
 </body>

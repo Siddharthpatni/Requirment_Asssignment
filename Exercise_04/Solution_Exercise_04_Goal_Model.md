@@ -1,173 +1,159 @@
-# Solution for Exercise 04: E-Scooter Ride-Share System
+# Exercise 04 Solution: Urban Mobility E-Scooter Platform
 
 **TU Clausthal**  
-**Department:** Institut für Software and Systems Engineering  
-**Course:** Requirements Engineering  
-**Exercise:** 04 (Agent-Oriented Modeling)  
-**Submitted By:** Siddharth D. Patni (sp01)  
-**Date:** 11.01.2026
+**Institute:** Software and Systems Engineering  
+**Module:** Requirements Engineering  
+**Assignment:** 04 – Agent-Oriented Modeling  
+**Author:** Siddharth D. Patni (sp01)  
+**Submission Date:** 11.01.2026
 
 ---
 
-## 1. Agents and Roles
+## 1. System Actors and Their Responsibilities
 
-Based on the project scenario, the system involves the interaction between the commuter, the physical scooter, and the backend service. The following Agents and Roles have been identified.
+After analyzing the ride-share scenario, I identified three distinct actors that collaborate to deliver the service. Each actor plays a specific part in the overall workflow.
 
-| Agent | Assigned Role | Description |
-|-------|--------------|-------------|
-| Commuter (Human) | Commuter Role | Responsible for the user-side process: registering, reserving the scooter, riding safely, and authorizing payment. |
-| E-Scooter (Hardware) | Fleet Manager Role | Handles the physical state of the vehicle (locking/unlocking) and reports real-time status (Idle/Reserved) and location. |
-| Backend System (Software) | Payment Processor Role | Manages the logic for account verification, fee computation, and secure financial debiting. |
+| Actor Type | Role Name | Core Responsibilities |
+|------------|-----------|----------------------|
+| End User (Human) | Rider | Initiates the rental journey: signs up, picks a vehicle, travels, and approves the charge |
+| Physical Device (IoT) | Vehicle Controller | Governs hardware functions—motor engagement, GPS tracking, and availability broadcasting |
+| Cloud Service (Software) | Billing Engine | Orchestrates account validation, duration tracking, fare determination, and fund transfer |
 
 ---
 
-## 2. Goals
+## 2. System Objectives
 
-The system goals are categorized into **Functional Goals** (what the system does) and **Quality Goals** (how the system performs).
+I structured the objectives into two categories: capabilities the platform must provide (functional) and performance standards it must meet (quality-focused).
 
-### Functional Goals (FG)
+### Functional Objectives
 
-- **FG-01 (Registration):** The system shall allow new commuters to register by validating their personal identity and payment details.
-- **FG-02 (Reservation):** The Commuter shall be able to locate an idle scooter and reserve it, changing its status to prevent other users from booking it.
-- **FG-03 (Commute):** The Commuter shall be able to unlock the specific scooter and ride to their destination.
-- **FG-04 (End Ride):** The system shall detect when the user terminates the ride and immediately lock the scooter.
-- **FG-05 (Payment):** The system shall automatically calculate the final fee and debit the registered payment method without manual intervention.
+- **FO-01 (Onboarding):** New riders complete a signup flow where their credentials and card details undergo verification before activation.
+- **FO-02 (Vehicle Claim):** Riders browse nearby vehicles via the app map, select one, and claim it—instantly marking it unavailable to others.
+- **FO-03 (Trip Execution):** Once claimed, the vehicle motor activates, allowing the rider to travel freely until reaching their stop.
+- **FO-04 (Trip Termination):** Parking the vehicle and tapping "End" triggers an automatic motor shutdown and GPS-based location update.
+- **FO-05 (Automated Billing):** The platform computes travel charges and processes the transaction without requiring manual input.
 
-### Quality Goals (QG)
+### Quality Objectives
 
-- **QG-01 (Data Accuracy):** The status of all scooters (Idle vs. Reserved) must be updated in real-time to avoid synchronization errors.
-- **QG-02 (Billing Precision):** The ride fee calculation must be mathematically precise based on the exact duration recorded by the backend.
-- **QG-03 (Security):** Commuter payment details must be stored securely and only accessed during the automatic debit process.
+- **QO-01 (Live Inventory):** Vehicle availability reflects real-world status within seconds to prevent double-bookings.
+- **QO-02 (Accurate Charges):** Fare calculations use server-recorded timestamps to ensure riders pay exactly what they owe.
+- **QO-03 (Data Protection):** Sensitive payment credentials remain encrypted and are accessed only during the debit operation.
 
-### Goal Hierarchy Diagram (3-Level Tree)
+### Objective Hierarchy (3 Tiers)
 
-The following diagram shows the hierarchical decomposition of goals with at least 3 levels as required:
+The diagram below illustrates how the main platform goal decomposes into sub-objectives and finally into specific leaf-level tasks:
 
 ```mermaid
 graph TD
-    %% Level 1: Main Goal
-    MG["<b>MG: Manage E-Scooter<br/>Ride Sharing System</b>"]
+    %% Tier 1: Platform Goal
+    PG["<b>Platform Goal:<br/>Operate Urban Scooter Rental</b>"]
     
-    %% Level 2: Sub-Goals
-    SG1["<b>SG-1: Manage<br/>Registration</b>"]
-    SG2["<b>SG-2: Manage<br/>Ride Operations</b>"]
-    SG3["<b>SG-3: Manage<br/>Payment Processing</b>"]
+    %% Tier 2: Sub-Objectives
+    SO1["<b>SO-1: Enable<br/>User Onboarding</b>"]
+    SO2["<b>SO-2: Facilitate<br/>Trip Lifecycle</b>"]
+    SO3["<b>SO-3: Execute<br/>Financial Settlement</b>"]
     
-    %% Level 3: Leaf Goals - Functional
-    FG01["FG-01: Validate<br/>Identity & Payment"]
-    FG02["FG-02: Locate &<br/>Reserve Scooter"]
-    FG03["FG-03: Unlock &<br/>Enable Ride"]
-    FG04["FG-04: Detect End<br/>& Lock Scooter"]
-    FG05["FG-05: Calculate Fee<br/>& Debit Account"]
+    %% Tier 3: Leaf Objectives - Functional
+    FO01["FO-01: Verify<br/>Rider Credentials"]
+    FO02["FO-02: Allow<br/>Vehicle Claiming"]
+    FO03["FO-03: Activate<br/>Motor for Travel"]
+    FO04["FO-04: Detect Stop<br/>& Secure Vehicle"]
+    FO05["FO-05: Compute Fare<br/>& Charge Card"]
     
-    %% Level 3: Leaf Goals - Quality
-    QG01["QG-01: Real-time<br/>Status Sync"]
-    QG02["QG-02: Precise<br/>Billing"]
-    QG03["QG-03: Secure<br/>Data Storage"]
+    %% Tier 3: Leaf Objectives - Quality
+    QO01["QO-01: Sync<br/>Availability Live"]
+    QO02["QO-02: Ensure<br/>Billing Accuracy"]
+    QO03["QO-03: Encrypt<br/>Payment Data"]
     
-    %% Connections Level 1 to 2
-    MG --> SG1
-    MG --> SG2
-    MG --> SG3
+    %% Connections Tier 1 to 2
+    PG --> SO1
+    PG --> SO2
+    PG --> SO3
     
-    %% Connections Level 2 to 3
-    SG1 --> FG01
-    SG2 --> FG02
-    SG2 --> FG03
-    SG2 --> FG04
-    SG2 --> QG01
-    SG3 --> FG05
-    SG3 --> QG02
-    SG3 --> QG03
+    %% Connections Tier 2 to 3
+    SO1 --> FO01
+    SO2 --> FO02
+    SO2 --> FO03
+    SO2 --> FO04
+    SO2 --> QO01
+    SO3 --> FO05
+    SO3 --> QO02
+    SO3 --> QO03
     
-    %% Styling
-    style MG fill:#1a5f7a,stroke:#333,color:#fff
-    style SG1 fill:#57a773,stroke:#333,color:#fff
-    style SG2 fill:#57a773,stroke:#333,color:#fff
-    style SG3 fill:#57a773,stroke:#333,color:#fff
-    style FG01 fill:#f9c74f,stroke:#333,color:#000
-    style FG02 fill:#f9c74f,stroke:#333,color:#000
-    style FG03 fill:#f9c74f,stroke:#333,color:#000
-    style FG04 fill:#f9c74f,stroke:#333,color:#000
-    style FG05 fill:#f9c74f,stroke:#333,color:#000
-    style QG01 fill:#90be6d,stroke:#333,color:#000
-    style QG02 fill:#90be6d,stroke:#333,color:#000
-    style QG03 fill:#90be6d,stroke:#333,color:#000
+    %% Visual Styling
+    style PG fill:#2c3e50,stroke:#1a252f,color:#ecf0f1
+    style SO1 fill:#27ae60,stroke:#1e8449,color:#fff
+    style SO2 fill:#27ae60,stroke:#1e8449,color:#fff
+    style SO3 fill:#27ae60,stroke:#1e8449,color:#fff
+    style FO01 fill:#f39c12,stroke:#d68910,color:#000
+    style FO02 fill:#f39c12,stroke:#d68910,color:#000
+    style FO03 fill:#f39c12,stroke:#d68910,color:#000
+    style FO04 fill:#f39c12,stroke:#d68910,color:#000
+    style FO05 fill:#f39c12,stroke:#d68910,color:#000
+    style QO01 fill:#58d68d,stroke:#2ecc71,color:#000
+    style QO02 fill:#58d68d,stroke:#2ecc71,color:#000
+    style QO03 fill:#58d68d,stroke:#2ecc71,color:#000
 ```
 
-**Diagram Legend:**
-- 🔵 **Level 1 (Blue):** Main System Goal
-- 🟢 **Level 2 (Green):** Sub-Goals (Registration, Ride Operations, Payment)
-- 🟡 **Level 3 - Yellow:** Functional Leaf Goals (FG-01 to FG-05)
-- 🟢 **Level 3 - Light Green:** Quality Leaf Goals (QG-01 to QG-03)
-
-## 3. Ride Cost Computation
-
-The system implements a **Time-Based pricing strategy**.
-
-### Formula:
-
-$$TotalFee = UnlockFee + (Duration_{minutes} \times Rate_{min})$$
-
-**Where:**
-- **UnlockFee:** A fixed starting fee (e.g., €1.00).
-- **Duration:** Time difference between Unlock and End Ride timestamps (rounded up).
-- **Rate:** The per-minute usage cost (e.g., €0.20).
+**Color Key:**
+- 🔵 **Tier 1:** Overall platform mission
+- 🟢 **Tier 2:** Major capability areas
+- 🟡 **Tier 3 (Gold):** Functional leaf objectives
+- 🟢 **Tier 3 (Mint):** Quality leaf objectives
 
 ---
 
-## 4. AOM Behavioral Interface Model (BIM)
+## 3. Fare Calculation Logic
 
-The Behavioral Interface Model (BIM) below illustrates the dynamic interaction between roles. It is consistent with the Leaf Goals defined in the Goal Model.
+I chose a **duration-based pricing model** since the assignment allows flexibility in formula design.
 
-### Process Description:
+### Pricing Formula
 
-1. **Registration/Reservation:** The process starts with the Commuter creating an account or reserving an existing Idle scooter.
-2. **Unlock:** Upon successful reservation, the Fleet Manager unlocks the hardware.
-3. **Commute:** The Commuter uses the vehicle.
-4. **End Ride:** The user ends the session, prompting the Fleet Manager to lock the device.
-5. **Payment:** The Payment Processor calculates the fee based on the duration and debits the account.
+$$\text{TripCost} = \text{StartFee} + (\text{Minutes} \times \text{PerMinuteRate})$$
 
-### State Diagram:
+**Component Breakdown:**
+
+| Component | Meaning | Sample Value |
+|-----------|---------|--------------|
+| StartFee | One-time unlock charge | €1.00 |
+| Minutes | Elapsed time from unlock to lock | Variable |
+| PerMinuteRate | Ongoing usage charge | €0.20 |
+
+**Calculation Example:**  
+A 12-minute trip costs: €1.00 + (12 × €0.20) = **€3.40**
+
+---
+
+## 4. Behavioral Interface Model (BIM)
+
+The state diagram below traces a complete rental session, showing how control passes between the three roles.
+
+### Workflow Narrative
+
+1. **Account Setup:** A first-time user registers and provides payment information
+2. **Vehicle Selection:** The rider claims an available scooter through the app
+3. **Travel Phase:** Vehicle Controller unlocks the motor; rider travels
+4. **Session Close:** Rider ends the trip; Vehicle Controller locks hardware
+5. **Settlement:** Billing Engine calculates duration-based fare and charges the card
+
+### State Flow Diagram
 
 ```mermaid
 stateDiagram-v2
     direction LR
     
-    %% Role Lanes
-    state "Commuter Role" as CR {
-        Register
-        Reserve
-        Commute
-    }
-    state "Fleet Manager Role" as FMR {
-        Unlock
-        EndRide
-    }
-    state "Payment Processor Role" as PPR {
-        ComputeFee
-        DebitPayment
-    }
-
-    %% Sequence Flow
-    [*] --> Register: New User
-    Register --> Reserve: Account Created
-    Reserve --> Unlock: Scooter Selected
-    Unlock --> Commute: Motor Activated
-    Commute --> EndRide: Destination Reached
-    EndRide --> ComputeFee: Ride Data Sent
-    ComputeFee --> DebitPayment: Fee Calculated
-    DebitPayment --> [*]: Transaction Complete
+    [*] --> Signup: First-time User
+    Signup --> ClaimVehicle: Credentials Verified
+    ClaimVehicle --> ActivateMotor: Vehicle Confirmed
+    ActivateMotor --> Travel: Motor Engaged
+    Travel --> EndSession: Rider Stops
+    EndSession --> CalculateFare: Trip Data Logged
+    CalculateFare --> ChargeCard: Amount Determined
+    ChargeCard --> [*]: Payment Successful
 ```
 
 ---
 
-## Summary
+## Closing Remarks
 
-This solution presents a comprehensive Agent-Oriented Model for an E-Scooter Ride-Share System, defining:
-- Three primary agents with distinct roles (Commuter, Fleet Manager, Payment Processor)
-- Functional and quality goals ensuring system effectiveness and reliability
-- A transparent time-based pricing model
-- A behavioral interface model illustrating the complete ride lifecycle
-
-The design emphasizes real-time status synchronization, secure payment processing, and precise billing to ensure a seamless user experience.
+This solution models a real-world urban mobility scenario using agent-oriented principles. The three-role decomposition mirrors how actual ride-share platforms separate user interfaces, IoT device management, and financial backends. The time-based billing formula keeps the model simple while remaining practical.

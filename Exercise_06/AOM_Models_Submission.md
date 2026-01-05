@@ -1,91 +1,103 @@
-# AOM Models Submission - Exercise 06
+# Exercise 06 Solution: E-Scooter Rental Workflow via Coloured Petri Nets
 
 **TU Clausthal**  
-**Department:** Institut für Software and Systems Engineering  
-**Course:** Requirements Engineering  
-**Exercise:** 06 (Coloured Petri Net - E-Scooter System)  
-**Submitted By:** Siddharth D. Patni (sp01)  
-**Date:** 27.12.2024
+**Institute:** Software and Systems Engineering  
+**Module:** Requirements Engineering  
+**Assignment:** 06 – Coloured Petri Net Modeling  
+**Author:** Siddharth D. Patni (sp01)  
+**Submission Date:** 27.12.2024
 
 ---
 
-## 1. Introduction
+## 1. Modeling Approach
 
-This document presents a Coloured Petri Net (CPN) model for the E-Scooter Ride-Share System using the SNAKES library. The model captures the complete workflow from reservation to payment processing.
+Unlike standard Petri Nets where all tokens are identical, Coloured Petri Nets (CPNs) attach data to each token. This capability proves essential for tracking individual users and scooters through the rental lifecycle.
 
----
-
-## 2. CPN Model Structure
-
-### 2.1 Places (Token Types)
-
-| Place | Token Format | Description |
-|-------|--------------|-------------|
-| CommuterPool | (User_ID, Wallet_Balance) | Idle commuters ready to ride |
-| ScooterPool | (Scooter_ID, Location) | Available scooters at stations |
-| ReservedState | (User_ID, Scooter_ID) | Active reservations |
-| OnRide | (User_ID, Scooter_ID, Start_Time) | Active rides in progress |
-| PaymentQueue | (User_ID, Cost) | Pending payments |
-| BillingHistory | (User_ID, Final_Cost, Status) | Completed transactions |
-
-### 2.2 Transitions
-
-| Transition | Input | Output | Description |
-|------------|-------|--------|-------------|
-| Reserve | CommuterPool, ScooterPool | ReservedState | User reserves a scooter |
-| StartRide | ReservedState | OnRide | User unlocks and begins ride |
-| EndRide | OnRide | ScooterPool, PaymentQueue | Ride ends, cost calculated |
-| ProcessPayment | PaymentQueue | BillingHistory, CommuterPool | Payment processed |
+I structured the model around six places representing different phases of the customer journey, from an available user/scooter pool through to completed billing records.
 
 ---
 
-## 3. Cost Calculation
+## 2. Network Topology
 
-**Formula:** `TotalFee = UnlockFee + (Duration × Rate)`
+### Token Repositories (Places)
 
-- **UnlockFee:** €1.00
-- **Rate:** €0.20 per minute
-- **Example:** 15 min ride = €1.00 + (15 × €0.20) = €4.00
+| Place | Token Structure | Purpose |
+|-------|-----------------|---------|
+| CommuterPool | `(UserID, WalletBalance)` | Users available to rent |
+| ScooterPool | `(ScooterID, StationLocation)` | Vehicles parked at stations |
+| ReservedState | `(UserID, ScooterID)` | Active booking records |
+| OnRide | `(UserID, ScooterID, StartTimestamp)` | Trips in progress |
+| PaymentQueue | `(UserID, OwedAmount)` | Pending financial transactions |
+| BillingHistory | `(UserID, PaidAmount, Status)` | Completed transaction records |
 
----
+### State Transitions
 
-## 4. Simulation Results
-
-The Python script generates the following state diagrams:
-
-1. **sim_scooter_00_Initial.png** - Initial state with 2 users and 2 scooters
-2. **sim_scooter_01_Reserved.png** - User_A reserves Scooter_1
-3. **sim_scooter_02_Riding.png** - User_A starts riding
-4. **sim_scooter_03_Concurrency_Reserved.png** - User_B reserves Scooter_2 (concurrent)
-5. **sim_scooter_04_RideEnded_PaymentPending.png** - User_A ends ride, payment pending
-6. **sim_scooter_05_PaymentComplete_UserReturned.png** - Payment processed, user returned to pool
-
----
-
-## 5. Key Features Demonstrated
-
-- **Concurrency:** Multiple users can reserve different scooters simultaneously
-- **Token Flow:** Proper movement of colored tokens through the net
-- **State Tracking:** Complete audit trail from reservation to billing
-- **SNAKES CPN Compliance:** Uses only SNAKES library for Petri Net modeling
+| Transition | Consumes From | Produces To | Action Performed |
+|------------|---------------|-------------|------------------|
+| Reserve | CommuterPool, ScooterPool | ReservedState | Links user to specific vehicle |
+| StartRide | ReservedState | OnRide | Records trip start timestamp |
+| EndRide | OnRide | ScooterPool, PaymentQueue | Calculates fare, returns vehicle |
+| ProcessPayment | PaymentQueue | BillingHistory, CommuterPool | Deducts balance, logs transaction |
 
 ---
 
-## 6. Files Included
+## 3. Fare Computation
 
-- `Solution_Exercise_06.py` - Python CPN implementation
-- `sim_scooter_*.png` - Generated simulation diagrams (6 images)
-- `AOM_Models_Submission.md` - This documentation
+Following the time-based model from Exercise 04:
+
+**Formula:** `TripTotal = StartupCharge + (TripMinutes × MinuteRate)`
+
+**Parameters Used:**
+- StartupCharge: €1.00 (covers maintenance overhead)
+- MinuteRate: €0.20 (usage-proportional charge)
+
+**Sample Calculation:**  
+15-minute trip = €1.00 + (15 × €0.20) = **€4.00**
 
 ---
 
-## 7. Running the Code
+## 4. Simulation Progression
+
+The script generates six state snapshots illustrating the complete workflow:
+
+| Snapshot | What Changed |
+|----------|--------------|
+| `sim_scooter_00_Initial.png` | Starting state: 2 users, 2 scooters in pools |
+| `sim_scooter_01_Reserved.png` | User_A claims Scooter_1 |
+| `sim_scooter_02_Riding.png` | User_A's trip begins (timestamp recorded) |
+| `sim_scooter_03_Concurrency_Reserved.png` | User_B claims Scooter_2 (parallel action) |
+| `sim_scooter_04_RideEnded_PaymentPending.png` | User_A finishes, fare queued |
+| `sim_scooter_05_PaymentComplete_UserReturned.png` | User_A's payment processed, back in pool |
+
+---
+
+## 5. Notable Model Properties
+
+- **Parallel Execution:** Multiple users operate independently—no artificial sequencing
+- **Identity Preservation:** Colored tokens maintain user/scooter IDs throughout transitions
+- **Audit Capability:** BillingHistory place provides complete transaction records
+- **Library Compliance:** Implementation uses only SNAKES library constructs
+
+---
+
+## 6. Running the Simulation
 
 ```bash
+cd Exercise_06
 python Solution_Exercise_06.py
 ```
 
-**Requirements:**
-- Python 3.x
-- SNAKES library (`pip install snakes`)
-- Graphviz (`brew install graphviz` on macOS)
+**System Requirements:**
+- Python 3.8 or newer
+- SNAKES package: `pip install snakes`
+- Graphviz rendering: `brew install graphviz` (macOS) or `apt install graphviz` (Linux)
+
+---
+
+## 7. Submission Contents
+
+| File | Description |
+|------|-------------|
+| `Solution_Exercise_06.py` | CPN implementation source code |
+| `sim_scooter_*.png` | Six simulation state images |
+| `AOM_Models_Submission.md` | This documentation file |

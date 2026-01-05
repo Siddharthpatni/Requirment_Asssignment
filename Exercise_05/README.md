@@ -1,93 +1,97 @@
-# Exercise 05: Petri Net - File Locking Mechanism
+# Exercise 05 Solution: Concurrent File Access via Petri Nets
 
 **TU Clausthal**  
-**Department:** Institut für Software and Systems Engineering  
-**Course:** Requirements Engineering  
-**Exercise:** 05 (Petri Net with Locking)  
-**Submitted By:** Siddharth D. Patni (sp01)  
-**Date:** 27.12.2024
+**Institute:** Software and Systems Engineering  
+**Module:** Requirements Engineering  
+**Assignment:** 05 – Petri Net Modeling  
+**Author:** Siddharth D. Patni (sp01)  
+**Submission Date:** 27.12.2024
 
 ---
 
-## 1. Overview
+## 1. Problem Context
 
-This exercise implements a **Petri Net** that models a **file locking mechanism** for concurrent read/write access. The model ensures mutual exclusion - only one process can write at a time while multiple processes can read concurrently.
+When multiple programs attempt to modify the same file, data corruption becomes inevitable without coordination. This exercise models a **mutual exclusion mechanism** using Petri Nets—a classic concurrency control pattern found in database systems and operating system kernels.
 
----
-
-## 2. Model Structure
-
-### Places
-
-| Place | Initial Tokens | Description |
-|-------|----------------|-------------|
-| `Idle` | [1, 2] | Processes waiting to work |
-| `Reading` | [] | Processes currently reading |
-| `ReadyToWrite` | [] | Processes waiting to acquire write lock |
-| `Writing` | [] | Process in critical section (max 1) |
-| `Lock` | ['available'] | Write lock token |
-
-### Transitions
-
-| Transition | Description |
-|------------|-------------|
-| `StartRead` | Process moves from Idle → Reading |
-| `EndRead` | Process moves from Reading → ReadyToWrite |
-| `StartWrite` | Process acquires lock, moves to Writing |
-| `EndWrite` | Process releases lock, returns to Idle |
+The core challenge: permit simultaneous reads (non-destructive operations) while enforcing exclusive access during writes (destructive operations).
 
 ---
 
-## 3. Locking Mechanism
+## 2. Net Architecture
 
-The **Lock** place contains a single token (`'available'`). When a process wants to write:
+I designed the Petri Net with five places representing distinct program states, connected by four transitions governing state changes.
 
-1. It must consume the lock token from `Lock` place
-2. Only one process can hold the lock at a time
-3. When writing finishes, the lock token is returned
+### State Places
 
-This ensures **mutual exclusion** in the writing phase.
+| Place Name | Starting Tokens | Meaning |
+|------------|-----------------|---------|
+| `Idle` | Two process IDs: [1, 2] | Programs waiting to begin work |
+| `Reading` | Empty | Programs currently reading file contents |
+| `ReadyToWrite` | Empty | Programs queued to enter write mode |
+| `Writing` | Empty | Single program performing write operation |
+| `Lock` | One token: ['available'] | Semaphore controlling write access |
 
----
+### Transition Rules
 
-## 4. Simulation Output
-
-The simulation generates 9 PNG images showing state transitions:
-
-| Image | State |
-|-------|-------|
-| `simulation_00_Initial.png` | Initial: Both processes idle, lock available |
-| `simulation_01_P1_Reading.png` | Process 1 reading |
-| `simulation_02_P1_ReadyToWrite.png` | Process 1 ready to write |
-| `simulation_03_P1_Writing.png` | Process 1 writing (lock acquired) |
-| `simulation_04_P2_Reading.png` | Process 2 reading concurrently |
-| `simulation_05_P2_ReadyToWrite_BLOCKED.png` | Process 2 blocked - no lock available |
-| `simulation_06_P1_Idle_LockReleased.png` | Process 1 done, lock released |
-| `simulation_07_P2_Writing.png` | Process 2 now writing |
-| `simulation_08_P2_Idle_Final.png` | Final state: both idle |
+| Transition | What It Does |
+|------------|--------------|
+| `StartRead` | Moves a process from Idle into Reading mode |
+| `EndRead` | Moves a process from Reading into the write queue |
+| `StartWrite` | Consumes the lock token, moves process into Writing |
+| `EndWrite` | Returns the lock token, moves process back to Idle |
 
 ---
 
-## 5. Running the Simulation
+## 3. How the Lock Prevents Conflicts
 
-### Prerequisites
+The single token in the `Lock` place acts as a gatekeeper. Here's the logic:
+
+1. A process in `ReadyToWrite` can only fire `StartWrite` if the Lock contains a token
+2. Firing `StartWrite` removes the token—no other process can now enter `Writing`
+3. When `EndWrite` fires, the token reappears, allowing another queued process to proceed
+
+This pattern guarantees **at most one writer at any instant**, even with unlimited readers.
+
+---
+
+## 4. Simulation Walkthrough
+
+Running the Python script produces nine snapshots demonstrating the mechanism:
+
+| Snapshot | System State |
+|----------|--------------|
+| `simulation_00_Initial.png` | Both processes idle, lock token present |
+| `simulation_01_P1_Reading.png` | Process 1 reading (non-exclusive) |
+| `simulation_02_P1_ReadyToWrite.png` | Process 1 finished reading, waiting for lock |
+| `simulation_03_P1_Writing.png` | Process 1 acquired lock, now writing |
+| `simulation_04_P2_Reading.png` | Process 2 reading while P1 writes (allowed!) |
+| `simulation_05_P2_ReadyToWrite_BLOCKED.png` | Process 2 wants to write but lock is held |
+| `simulation_06_P1_Idle_LockReleased.png` | Process 1 released lock, returned to idle |
+| `simulation_07_P2_Writing.png` | Process 2 acquired the now-free lock |
+| `simulation_08_P2_Idle_Final.png` | Both processes back to idle state |
+
+---
+
+## 5. Execution Instructions
+
+### Dependencies
 ```bash
 pip install snakes
-brew install graphviz  # macOS
-# or: apt install graphviz  # Linux
+brew install graphviz  # On macOS
+# apt install graphviz  # On Ubuntu/Debian
 ```
 
-### Execute
+### Running the Model
 ```bash
+cd Exercise_05
 python exercise5.py
 ```
 
-### Expected Output
+### Expected Console Output
 ```
 [*] Net Created. Generating State Images...
     Saved state: simulation_00_Initial.png
 [-] Process 1 starts reading...
-    Saved state: simulation_01_P1_Reading.png
 ...
     [SUCCESS] 'StartWrite' has no valid modes. Lock is working!
 ...
@@ -97,8 +101,8 @@ python exercise5.py
 
 ---
 
-## 6. Files Included
+## 6. Deliverables Checklist
 
-- `exercise5.py` - Python Petri Net implementation
-- `simulation_*.png` - Generated state diagrams (9 images)
-- `README.md` - This documentation
+- ✅ `exercise5.py` – Complete Petri Net implementation
+- ✅ `simulation_*.png` – Nine state transition visualizations
+- ✅ `README.md` – This explanatory document
