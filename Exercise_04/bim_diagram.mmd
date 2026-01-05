@@ -1,0 +1,11 @@
+stateDiagram-v2
+    direction LR
+    
+    [*] --> Register: New User
+    Register --> Reserve: Account Created
+    Reserve --> Unlock: Scooter Selected
+    Unlock --> Commute: Motor Activated
+    Commute --> EndRide: Destination Reached
+    EndRide --> ComputeFee: Ride Data Sent
+    ComputeFee --> DebitPayment: Fee Calculated
+    DebitPayment --> [*]: Transaction Complete

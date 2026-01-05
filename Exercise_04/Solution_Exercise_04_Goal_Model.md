@@ -39,7 +39,67 @@ The system goals are categorized into **Functional Goals** (what the system does
 - **QG-02 (Billing Precision):** The ride fee calculation must be mathematically precise based on the exact duration recorded by the backend.
 - **QG-03 (Security):** Commuter payment details must be stored securely and only accessed during the automatic debit process.
 
----
+### Goal Hierarchy Diagram (3-Level Tree)
+
+The following diagram shows the hierarchical decomposition of goals with at least 3 levels as required:
+
+```mermaid
+graph TD
+    %% Level 1: Main Goal
+    MG["<b>MG: Manage E-Scooter<br/>Ride Sharing System</b>"]
+    
+    %% Level 2: Sub-Goals
+    SG1["<b>SG-1: Manage<br/>Registration</b>"]
+    SG2["<b>SG-2: Manage<br/>Ride Operations</b>"]
+    SG3["<b>SG-3: Manage<br/>Payment Processing</b>"]
+    
+    %% Level 3: Leaf Goals - Functional
+    FG01["FG-01: Validate<br/>Identity & Payment"]
+    FG02["FG-02: Locate &<br/>Reserve Scooter"]
+    FG03["FG-03: Unlock &<br/>Enable Ride"]
+    FG04["FG-04: Detect End<br/>& Lock Scooter"]
+    FG05["FG-05: Calculate Fee<br/>& Debit Account"]
+    
+    %% Level 3: Leaf Goals - Quality
+    QG01["QG-01: Real-time<br/>Status Sync"]
+    QG02["QG-02: Precise<br/>Billing"]
+    QG03["QG-03: Secure<br/>Data Storage"]
+    
+    %% Connections Level 1 to 2
+    MG --> SG1
+    MG --> SG2
+    MG --> SG3
+    
+    %% Connections Level 2 to 3
+    SG1 --> FG01
+    SG2 --> FG02
+    SG2 --> FG03
+    SG2 --> FG04
+    SG2 --> QG01
+    SG3 --> FG05
+    SG3 --> QG02
+    SG3 --> QG03
+    
+    %% Styling
+    style MG fill:#1a5f7a,stroke:#333,color:#fff
+    style SG1 fill:#57a773,stroke:#333,color:#fff
+    style SG2 fill:#57a773,stroke:#333,color:#fff
+    style SG3 fill:#57a773,stroke:#333,color:#fff
+    style FG01 fill:#f9c74f,stroke:#333,color:#000
+    style FG02 fill:#f9c74f,stroke:#333,color:#000
+    style FG03 fill:#f9c74f,stroke:#333,color:#000
+    style FG04 fill:#f9c74f,stroke:#333,color:#000
+    style FG05 fill:#f9c74f,stroke:#333,color:#000
+    style QG01 fill:#90be6d,stroke:#333,color:#000
+    style QG02 fill:#90be6d,stroke:#333,color:#000
+    style QG03 fill:#90be6d,stroke:#333,color:#000
+```
+
+**Diagram Legend:**
+- 🔵 **Level 1 (Blue):** Main System Goal
+- 🟢 **Level 2 (Green):** Sub-Goals (Registration, Ride Operations, Payment)
+- 🟡 **Level 3 - Yellow:** Functional Leaf Goals (FG-01 to FG-05)
+- 🟢 **Level 3 - Light Green:** Quality Leaf Goals (QG-01 to QG-03)
 
 ## 3. Ride Cost Computation
 
