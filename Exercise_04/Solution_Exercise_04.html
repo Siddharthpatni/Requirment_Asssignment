@@ -3,9 +3,13 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Urban Mobility E-Scooter Platform - AOM Solution</title>
+    <title>Exercise 04 - E-Scooter Ride-Share System</title>
     <style>
+        @page {
+            size: A4;
+            margin: 20mm;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,321 +17,277 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 210mm;
-            margin: 0 auto;
-            padding: 20mm;
+            font-family: 'Times New Roman', Georgia, serif;
+            font-size: 11pt;
+            line-height: 1.4;
+            color: #000;
             background: white;
+            max-width: 170mm;
+            margin: 0 auto;
+            padding: 10mm;
         }
 
-        @media print {
-            body {
-                padding: 15mm;
-            }
-
-            .page-break {
-                page-break-before: always;
-            }
-        }
-
-        h1 {
-            color: #2c3e50;
-            font-size: 22px;
-            margin-bottom: 10px;
-            border-bottom: 3px solid #2c3e50;
+        .header {
+            text-align: center;
+            margin-bottom: 15px;
             padding-bottom: 10px;
+            border-bottom: 2px solid #000;
+        }
+
+        .header h1 {
+            font-size: 16pt;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .header-meta {
+            font-size: 10pt;
+            line-height: 1.6;
         }
 
         h2 {
-            color: #34495e;
-            font-size: 16px;
-            margin-top: 20px;
+            font-size: 13pt;
+            font-weight: bold;
+            margin-top: 15px;
             margin-bottom: 8px;
-            border-left: 4px solid #27ae60;
-            padding-left: 10px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 3px;
         }
 
         h3 {
-            color: #4a5568;
-            font-size: 13px;
-            margin-top: 12px;
-            margin-bottom: 6px;
+            font-size: 11pt;
+            font-weight: bold;
+            margin-top: 10px;
+            margin-bottom: 5px;
         }
 
-        .header-info {
-            background: #f8f9fa;
-            padding: 12px;
-            border-radius: 6px;
-            margin-bottom: 15px;
-            font-size: 11px;
-            border-left: 4px solid #2c3e50;
-        }
-
-        .header-info p {
-            margin: 2px 0;
+        p {
+            margin-bottom: 8px;
+            text-align: justify;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 12px 0;
-            font-size: 11px;
+            margin: 10px 0;
+            font-size: 10pt;
         }
 
         th,
         td {
-            border: 1px solid #ddd;
-            padding: 8px;
+            border: 1px solid #000;
+            padding: 6px 8px;
             text-align: left;
+            vertical-align: top;
         }
 
         th {
-            background: #2c3e50;
-            color: white;
-            font-weight: 600;
+            background: #e0e0e0;
+            font-weight: bold;
         }
 
-        tr:nth-child(even) {
-            background: #f8f9fa;
+        ul,
+        ol {
+            margin: 8px 0 8px 20px;
         }
 
-        .objective-list {
-            margin: 8px 0;
-            padding-left: 20px;
-        }
-
-        .objective-list li {
-            margin: 6px 0;
-            font-size: 11px;
+        li {
+            margin: 4px 0;
         }
 
         .formula-box {
-            background: #e8f4fd;
-            border: 2px solid #2c3e50;
-            border-radius: 6px;
-            padding: 12px;
-            margin: 12px 0;
+            background: #f5f5f5;
+            border: 1px solid #999;
+            padding: 10px;
+            margin: 10px 0;
             text-align: center;
-        }
-
-        .formula {
             font-family: 'Times New Roman', serif;
-            font-size: 14px;
+            font-size: 12pt;
             font-weight: bold;
-            color: #2c3e50;
         }
 
-        .diagram-container {
-            text-align: center;
+        .diagram-section {
             margin: 15px 0;
-            padding: 12px;
-            background: #f8f9fa;
-            border-radius: 6px;
+            text-align: center;
         }
 
-        .diagram-container img {
+        .diagram-section img {
             max-width: 100%;
             height: auto;
+            border: 1px solid #ccc;
         }
 
-        .diagram-caption {
-            font-size: 10px;
-            color: #666;
-            margin-top: 8px;
+        .figure-caption {
+            font-size: 10pt;
             font-style: italic;
+            margin-top: 5px;
+            text-align: center;
         }
 
-        .legend {
-            background: #f8f9fa;
-            padding: 8px 12px;
-            border-radius: 6px;
-            margin: 8px 0;
-            font-size: 10px;
+        .page-break {
+            page-break-before: always;
         }
 
-        .summary-box {
-            background: linear-gradient(135deg, #2c3e50 0%, #27ae60 100%);
-            color: white;
-            padding: 12px;
-            border-radius: 6px;
-            margin-top: 15px;
-            font-size: 11px;
+        .two-column {
+            display: flex;
+            gap: 15px;
         }
 
-        .summary-box h2 {
-            color: white;
-            border-left-color: white;
-            font-size: 14px;
+        .two-column>div {
+            flex: 1;
         }
 
-        .summary-box ul {
+        .workflow-list {
             margin-left: 15px;
         }
 
-        .summary-box li {
-            margin: 4px 0;
-        }
-
-        .workflow-steps {
-            font-size: 11px;
-            margin: 8px 0;
-        }
-
-        .workflow-steps li {
-            margin: 4px 0;
+        .workflow-list li {
+            margin: 3px 0;
         }
     </style>
 </head>
 
 <body>
-    <h1>Exercise 04: Urban Mobility E-Scooter Platform</h1>
 
-    <div class="header-info">
-        <p><strong>TU Clausthal</strong> | Institute: Software and Systems Engineering</p>
-        <p><strong>Module:</strong> Requirements Engineering | <strong>Assignment:</strong> 04 – Agent-Oriented Modeling
-        </p>
-        <p><strong>Author:</strong> Siddharth D. Patni (sp01) | <strong>Date:</strong> 11.01.2026</p>
+    <div class="header">
+        <h1>Solution for Exercise 04: E-Scooter Ride-Share System</h1>
+        <div class="header-meta">
+            <strong>TU Clausthal</strong> | Institut für Software and Systems Engineering<br>
+            <strong>Course:</strong> Requirements Engineering | <strong>Exercise:</strong> 04 (Agent-Oriented
+            Modeling)<br>
+            <strong>Submitted By:</strong> Siddharth D. Patni (sp01) | <strong>Date:</strong> 11.01.2026
+        </div>
     </div>
 
-    <h2>1. System Actors and Responsibilities</h2>
-    <p style="font-size: 11px; margin-bottom: 8px;">After analyzing the ride-share scenario, I identified three actors
-        collaborating to deliver the service:</p>
+    <h2>1. Agents and Roles</h2>
+
+    <p>Based on analysis of the ride-share scenario, three primary agents interact to deliver the service:</p>
 
     <table>
         <thead>
             <tr>
-                <th>Actor Type</th>
-                <th>Role Name</th>
-                <th>Core Responsibilities</th>
+                <th style="width: 25%">Agent</th>
+                <th style="width: 25%">Role</th>
+                <th style="width: 50%">Description</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>End User (Human)</td>
-                <td>Rider</td>
-                <td>Initiates rental: signs up, picks vehicle, travels, approves charge</td>
+                <td>Commuter (Human)</td>
+                <td>Commuter Role</td>
+                <td>Handles user-side processes: registration, scooter reservation, riding, and payment authorization
+                </td>
             </tr>
             <tr>
-                <td>Physical Device (IoT)</td>
-                <td>Vehicle Controller</td>
-                <td>Governs hardware: motor control, GPS tracking, availability updates</td>
+                <td>E-Scooter (Hardware)</td>
+                <td>Fleet Manager Role</td>
+                <td>Controls physical vehicle state (lock/unlock), reports real-time status and GPS location</td>
             </tr>
             <tr>
-                <td>Cloud Service (Software)</td>
-                <td>Billing Engine</td>
-                <td>Handles validation, duration tracking, fare calculation, fund transfer</td>
+                <td>Backend System (Software)</td>
+                <td>Payment Processor Role</td>
+                <td>Manages account verification, fee computation, and secure financial transactions</td>
             </tr>
         </tbody>
     </table>
 
-    <h2>2. System Objectives</h2>
+    <h2>2. Goals</h2>
 
-    <h3>Functional Objectives</h3>
-    <ul class="objective-list">
-        <li><strong>FO-01 (Onboarding):</strong> New riders complete signup with credential and card verification before
-            activation.</li>
-        <li><strong>FO-02 (Vehicle Claim):</strong> Riders browse nearby vehicles via app map, claim one—instantly
-            marking it unavailable.</li>
-        <li><strong>FO-03 (Trip Execution):</strong> Once claimed, vehicle motor activates for travel to destination.
-        </li>
-        <li><strong>FO-04 (Trip Termination):</strong> Parking and tapping "End" triggers motor shutdown and GPS
-            location update.</li>
-        <li><strong>FO-05 (Automated Billing):</strong> Platform computes charges and processes transaction without
-            manual input.</li>
-    </ul>
+    <div class="two-column">
+        <div>
+            <h3>Functional Goals</h3>
+            <ul>
+                <li><strong>FG-01 (Registration):</strong> Allow new commuters to register with identity and payment
+                    validation</li>
+                <li><strong>FG-02 (Reservation):</strong> Enable locating and reserving idle scooters</li>
+                <li><strong>FG-03 (Commute):</strong> Allow unlocking and riding the reserved scooter</li>
+                <li><strong>FG-04 (End Ride):</strong> Detect ride termination and lock scooter automatically</li>
+                <li><strong>FG-05 (Payment):</strong> Calculate and debit fees without manual intervention</li>
+            </ul>
+        </div>
+        <div>
+            <h3>Quality Goals</h3>
+            <ul>
+                <li><strong>QG-01 (Data Accuracy):</strong> Real-time scooter status synchronization</li>
+                <li><strong>QG-02 (Billing Precision):</strong> Accurate fee calculation based on exact duration</li>
+                <li><strong>QG-03 (Security):</strong> Encrypted storage of payment credentials</li>
+            </ul>
+        </div>
+    </div>
 
-    <h3>Quality Objectives</h3>
-    <ul class="objective-list">
-        <li><strong>QO-01 (Live Inventory):</strong> Vehicle availability reflects real-world status within seconds.
-        </li>
-        <li><strong>QO-02 (Accurate Charges):</strong> Fare uses server-recorded timestamps for precise billing.</li>
-        <li><strong>QO-03 (Data Protection):</strong> Payment credentials remain encrypted, accessed only during debit.
-        </li>
-    </ul>
+    <h2>3. Ride Cost Computation</h2>
 
-    <h2>3. Fare Calculation Logic</h2>
-    <p style="font-size: 11px; margin-bottom: 8px;">I chose a duration-based pricing model for simplicity and fairness.
-    </p>
+    <p>The system uses a <strong>time-based pricing model</strong>:</p>
 
     <div class="formula-box">
-        <p class="formula">TripCost = StartFee + (Minutes × PerMinuteRate)</p>
+        TotalFee = UnlockFee + (Duration<sub>minutes</sub> × Rate<sub>per min</sub>)
     </div>
 
     <table>
         <thead>
             <tr>
-                <th>Component</th>
-                <th>Meaning</th>
-                <th>Sample Value</th>
+                <th>Variable</th>
+                <th>Description</th>
+                <th>Example Value</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>StartFee</td>
-                <td>One-time unlock charge</td>
+                <td>UnlockFee</td>
+                <td>Fixed starting fee</td>
                 <td>€1.00</td>
             </tr>
             <tr>
-                <td>Minutes</td>
-                <td>Elapsed time from unlock to lock</td>
-                <td>Variable</td>
+                <td>Duration</td>
+                <td>Time from unlock to end ride (rounded up)</td>
+                <td>15 minutes</td>
             </tr>
             <tr>
-                <td>PerMinuteRate</td>
-                <td>Ongoing usage charge</td>
+                <td>Rate</td>
+                <td>Per-minute usage charge</td>
                 <td>€0.20</td>
             </tr>
         </tbody>
     </table>
-    <p style="font-size: 11px;"><strong>Example:</strong> 12-minute trip = €1.00 + (12 × €0.20) = <strong>€3.40</strong>
-    </p>
+
+    <p><strong>Example:</strong> A 15-minute ride costs €1.00 + (15 × €0.20) = <strong>€4.00</strong></p>
 
     <h2>4. Behavioral Interface Model (BIM)</h2>
 
-    <h3>Workflow Narrative</h3>
-    <ol class="workflow-steps">
-        <li><strong>Account Setup:</strong> First-time user registers with payment info</li>
-        <li><strong>Vehicle Selection:</strong> Rider claims available scooter through app</li>
-        <li><strong>Travel Phase:</strong> Vehicle Controller unlocks motor; rider travels</li>
-        <li><strong>Session Close:</strong> Rider ends trip; Controller locks hardware</li>
-        <li><strong>Settlement:</strong> Billing Engine calculates duration-based fare and charges card</li>
+    <p>The BIM illustrates the dynamic interaction between roles throughout the ride lifecycle:</p>
+
+    <h3>Process Flow:</h3>
+    <ol class="workflow-list">
+        <li><strong>Registration:</strong> Commuter creates account with verified credentials</li>
+        <li><strong>Reservation:</strong> Commuter selects and reserves an idle scooter</li>
+        <li><strong>Unlock:</strong> Fleet Manager unlocks the vehicle hardware</li>
+        <li><strong>Commute:</strong> Commuter travels to destination</li>
+        <li><strong>End Ride:</strong> Fleet Manager locks vehicle upon session end</li>
+        <li><strong>Payment:</strong> Payment Processor calculates fee and debits account</li>
     </ol>
 
-    <div class="diagram-container">
+    <div class="diagram-section">
         <img src="BIM_State_Diagram.png" alt="BIM State Diagram">
-        <p class="diagram-caption">Figure 1: Behavioral Interface Model – State transitions in rental lifecycle</p>
+        <p class="figure-caption">Figure 1: Behavioral Interface Model – State Diagram</p>
     </div>
 
     <div class="page-break"></div>
 
-    <h2>5. Objective Hierarchy Diagram (3 Tiers)</h2>
-    <p style="font-size: 11px; margin-bottom: 8px;">This diagram shows goal decomposition from platform mission to
-        leaf-level tasks:</p>
+    <h2>5. Goal Hierarchy Diagram (3-Level Tree)</h2>
 
-    <div class="diagram-container">
+    <p>The following diagram shows the hierarchical decomposition of system goals across three levels:</p>
+
+    <ul>
+        <li><strong>Level 1 (Blue):</strong> Main System Goal – Manage E-Scooter Ride Sharing</li>
+        <li><strong>Level 2 (Green):</strong> Sub-Goals – Registration, Ride Operations, Payment Processing</li>
+        <li><strong>Level 3 (Yellow/Light Green):</strong> Leaf Goals – Specific functional and quality objectives</li>
+    </ul>
+
+    <div class="diagram-section">
         <img src="Goal_Hierarchy_Diagram.png" alt="Goal Hierarchy Diagram">
-        <p class="diagram-caption">Figure 2: AOM Goal Model – Three-tier hierarchy</p>
+        <p class="figure-caption">Figure 2: AOM Goal Model – 3-Level Hierarchy</p>
     </div>
 
-    <div class="legend">
-        <strong>Color Key:</strong>
-        <span style="margin-left: 10px;">🔵 Tier 1: Platform mission</span>
-        <span style="margin-left: 10px;">🟢 Tier 2: Capability areas</span>
-        <span style="margin-left: 10px;">🟡 Tier 3: Leaf objectives</span>
-    </div>
-
-    <div class="summary-box">
-        <h2>Closing Remarks</h2>
-        <p>This solution models a real-world urban mobility scenario using agent-oriented principles:</p>
-        <ul>
-            <li>Three-role decomposition mirrors actual platform architecture</li>
-            <li>Functional and quality objectives ensure comprehensive coverage</li>
-            <li>Time-based billing keeps the model practical</li>
-            <li>BIM illustrates complete rental lifecycle state flow</li>
-        </ul>
-    </div>
 </body>
 
 </html>

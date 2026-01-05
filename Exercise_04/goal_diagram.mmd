@@ -1,49 +1,42 @@
 graph TD
-    %% Tier 1: Platform Goal
-    PG["<b>Platform Goal:<br/>Operate Urban Scooter Rental</b>"]
+    MG["<b>MG: Manage E-Scooter<br/>Ride Sharing System</b>"]
     
-    %% Tier 2: Sub-Objectives
-    SO1["<b>SO-1: Enable<br/>User Onboarding</b>"]
-    SO2["<b>SO-2: Facilitate<br/>Trip Lifecycle</b>"]
-    SO3["<b>SO-3: Execute<br/>Financial Settlement</b>"]
+    SG1["<b>SG-1: Manage<br/>Registration</b>"]
+    SG2["<b>SG-2: Manage<br/>Ride Operations</b>"]
+    SG3["<b>SG-3: Manage<br/>Payment Processing</b>"]
     
-    %% Tier 3: Leaf Objectives - Functional
-    FO01["FO-01: Verify<br/>Rider Credentials"]
-    FO02["FO-02: Allow<br/>Vehicle Claiming"]
-    FO03["FO-03: Activate<br/>Motor for Travel"]
-    FO04["FO-04: Detect Stop<br/>& Secure Vehicle"]
-    FO05["FO-05: Compute Fare<br/>& Charge Card"]
+    FG01["FG-01: Validate<br/>Identity & Payment"]
+    FG02["FG-02: Locate &<br/>Reserve Scooter"]
+    FG03["FG-03: Unlock &<br/>Enable Ride"]
+    FG04["FG-04: Detect End<br/>& Lock Scooter"]
+    FG05["FG-05: Calculate Fee<br/>& Debit Account"]
     
-    %% Tier 3: Leaf Objectives - Quality
-    QO01["QO-01: Sync<br/>Availability Live"]
-    QO02["QO-02: Ensure<br/>Billing Accuracy"]
-    QO03["QO-03: Encrypt<br/>Payment Data"]
+    QG01["QG-01: Real-time<br/>Status Sync"]
+    QG02["QG-02: Precise<br/>Billing"]
+    QG03["QG-03: Secure<br/>Data Storage"]
     
-    %% Connections Tier 1 to 2
-    PG --> SO1
-    PG --> SO2
-    PG --> SO3
+    MG --> SG1
+    MG --> SG2
+    MG --> SG3
     
-    %% Connections Tier 2 to 3
-    SO1 --> FO01
-    SO2 --> FO02
-    SO2 --> FO03
-    SO2 --> FO04
-    SO2 --> QO01
-    SO3 --> FO05
-    SO3 --> QO02
-    SO3 --> QO03
+    SG1 --> FG01
+    SG2 --> FG02
+    SG2 --> FG03
+    SG2 --> FG04
+    SG2 --> QG01
+    SG3 --> FG05
+    SG3 --> QG02
+    SG3 --> QG03
     
-    %% Visual Styling
-    style PG fill:#2c3e50,stroke:#1a252f,color:#ecf0f1
-    style SO1 fill:#27ae60,stroke:#1e8449,color:#fff
-    style SO2 fill:#27ae60,stroke:#1e8449,color:#fff
-    style SO3 fill:#27ae60,stroke:#1e8449,color:#fff
-    style FO01 fill:#f39c12,stroke:#d68910,color:#000
-    style FO02 fill:#f39c12,stroke:#d68910,color:#000
-    style FO03 fill:#f39c12,stroke:#d68910,color:#000
-    style FO04 fill:#f39c12,stroke:#d68910,color:#000
-    style FO05 fill:#f39c12,stroke:#d68910,color:#000
-    style QO01 fill:#58d68d,stroke:#2ecc71,color:#000
-    style QO02 fill:#58d68d,stroke:#2ecc71,color:#000
-    style QO03 fill:#58d68d,stroke:#2ecc71,color:#000
+    style MG fill:#1565c0,stroke:#0d47a1,color:#fff
+    style SG1 fill:#2e7d32,stroke:#1b5e20,color:#fff
+    style SG2 fill:#2e7d32,stroke:#1b5e20,color:#fff
+    style SG3 fill:#2e7d32,stroke:#1b5e20,color:#fff
+    style FG01 fill:#fbc02d,stroke:#f9a825,color:#000
+    style FG02 fill:#fbc02d,stroke:#f9a825,color:#000
+    style FG03 fill:#fbc02d,stroke:#f9a825,color:#000
+    style FG04 fill:#fbc02d,stroke:#f9a825,color:#000
+    style FG05 fill:#fbc02d,stroke:#f9a825,color:#000
+    style QG01 fill:#66bb6a,stroke:#43a047,color:#000
+    style QG02 fill:#66bb6a,stroke:#43a047,color:#000
+    style QG03 fill:#66bb6a,stroke:#43a047,color:#000

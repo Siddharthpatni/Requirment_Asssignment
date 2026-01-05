@@ -1,11 +1,9 @@
 stateDiagram-v2
-    direction TB
-    
-    [*] --> Signup: First-time User
-    Signup --> ClaimVehicle: Credentials Verified
-    ClaimVehicle --> ActivateMotor: Vehicle Confirmed
-    ActivateMotor --> Travel: Motor Engaged
-    Travel --> EndSession: Rider Stops
-    EndSession --> CalculateFare: Trip Data Logged
-    CalculateFare --> ChargeCard: Amount Determined
-    ChargeCard --> [*]: Payment Successful
+    [*] --> Register
+    Register --> Reserve: Account Created
+    Reserve --> Unlock: Scooter Selected
+    Unlock --> Commute: Motor Activated
+    Commute --> EndRide: Destination Reached
+    EndRide --> ComputeFee: Ride Data Sent
+    ComputeFee --> DebitPayment: Fee Calculated
+    DebitPayment --> [*]: Transaction Complete
