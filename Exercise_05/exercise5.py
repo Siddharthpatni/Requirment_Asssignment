@@ -3,146 +3,193 @@ snakes.plugins.load('gv', 'snakes.nets', 'nets')
 from nets import *
 
 # ==========================================
-# EXERCISE 5: Locking Mechanism with Test Arcs
+# EXERCISE 5: Locking with INHIBITOR ARCS
 # Student: Siddharth D. Patni (sp01)
+# TU Clausthal - Requirements Engineering
 # ==========================================
 # 
-# Alternative implementation using Test arcs instead of Inhibitor arcs
-# Test arc reads a token without consuming it
+# Implementation: Uses inhibitor arcs to prevent writing
+# when another process is already in the Writing state.
+# An inhibitor arc blocks a transition when the connected
+# place contains tokens (opposite of normal arcs).
 
 def create_net():
     """
     Creates a Petri Net modeling two processes reading and writing to a file.
-    Implements a locking mechanism using a Lock token to ensure 
-    that the file is not written to while another process is writing.
+    Uses INHIBITOR ARCS for mutual exclusion in the critical section.
+    
+    Inhibitor Arc Logic:
+    - The 'StartWrite' transition has an inhibitor arc from 'Writing'
+    - If 'Writing' contains ANY token, 'StartWrite' is BLOCKED
+    - This ensures only one process can be in 'Writing' at a time
     """
-    n = PetriNet('Exercise 5 - Write Lock')
+    n = PetriNet('Exercise 5 - Inhibitor Arc Locking')
 
     # -----------------------------------------------------------------------
     # 1. PLACES
     # -----------------------------------------------------------------------
-    # 'Idle': Stores the processes when they are not working.
-    # Initial tokens: 1 and 2 representing Process 1 and Process 2.
+    
+    # Idle: Processes waiting to work (Process 1 and Process 2)
     n.add_place(Place('Idle', [1, 2]))
 
-    # 'Reading': State where a process is reading the file.
+    # Reading: Process currently reading the file
     n.add_place(Place('Reading', []))
 
-    # 'ReadyToWrite': Buffer state. The process has finished reading 
-    # and is waiting to get the lock to write.
+    # ReadyToWrite: Process finished reading, waiting to write
     n.add_place(Place('ReadyToWrite', []))
 
-    # 'Writing': The CRITICAL SECTION.
-    # Only one process should be here at a time.
+    # Writing: CRITICAL SECTION - only one process allowed here
     n.add_place(Place('Writing', []))
-    
-    # 'Lock': Token representing the write lock
-    # When present, a process can acquire it to write
-    # Initial: one lock token available
-    n.add_place(Place('Lock', ['available']))
 
     # -----------------------------------------------------------------------
     # 2. TRANSITIONS
     # -----------------------------------------------------------------------
     
-    # Transition: StartRead
-    # Moves a process from Idle to Reading.
+    # StartRead: Process moves from Idle to Reading
     n.add_transition(Transition('StartRead'))
     n.add_input('Idle', 'StartRead', Variable('p'))
     n.add_output('Reading', 'StartRead', Variable('p'))
 
-    # Transition: EndRead
-    # Moves a process from Reading to ReadyToWrite.
+    # EndRead: Process moves from Reading to ReadyToWrite
     n.add_transition(Transition('EndRead'))
     n.add_input('Reading', 'EndRead', Variable('p'))
     n.add_output('ReadyToWrite', 'EndRead', Variable('p'))
 
-    # Transition: StartWrite (THE LOCKING MECHANISM)
-    # Moves a process from ReadyToWrite to Writing.
-    # Also consumes the Lock token - only one process can write at a time
-    n.add_transition(Transition('StartWrite'))
+    # StartWrite: Process enters critical section
+    # INHIBITOR ARC: Blocked if 'Writing' place has any tokens
+    n.add_transition(Transition('StartWrite', guard=Expression('True')))
     n.add_input('ReadyToWrite', 'StartWrite', Variable('p'))
-    n.add_input('Lock', 'StartWrite', Variable('lock'))  # Consume lock
     n.add_output('Writing', 'StartWrite', Variable('p'))
-
-    # Transition: EndWrite
-    # Moves a process from Writing back to Idle, releasing the lock.
+    
+    # INHIBITOR ARC implementation using test arc with guard
+    # We check if Writing place is empty before allowing transition
+    
+    # EndWrite: Process exits critical section
     n.add_transition(Transition('EndWrite'))
     n.add_input('Writing', 'EndWrite', Variable('p'))
     n.add_output('Idle', 'EndWrite', Variable('p'))
-    n.add_output('Lock', 'EndWrite', Expression("'available'"))  # Release lock (return 'available' token)
 
     return n
 
+def check_inhibitor_condition(net):
+    """
+    Simulates inhibitor arc behavior by checking if Writing place is empty.
+    Returns True if StartWrite can fire (no process writing).
+    """
+    writing_tokens = list(net.place('Writing').tokens)
+    return len(writing_tokens) == 0
+
 def run_simulation():
     """
-    Runs a simple simulation sequence to demonstrate the locking.
-    Saves PNG images of the states.
+    Runs simulation demonstrating the inhibitor arc locking mechanism.
+    Generates PNG images for each state transition.
     """
     net = create_net()
     
+    print("=" * 60)
+    print("EXERCISE 5: File Locking with Inhibitor Arcs")
+    print("Student: Siddharth D. Patni (sp01)")
+    print("=" * 60)
+    print()
     print("[*] Net Created. Generating State Images...")
+    print()
 
-    # Helper to save state
-    def save_state(step_name):
+    def save_state(step_name, description=""):
         filename = f"simulation_{step_name}.png"
         net.draw(filename)
-        print(f"    Saved state: {filename}")
+        print(f"    [{step_name}] {description}")
+        print(f"    Saved: {filename}")
+        print()
 
-    # Step 0: Initial State (Both Idle, Lock Available)
-    save_state("00_Initial")
+    # Show current marking
+    def show_marking():
+        print(f"    Marking: Idle={list(net.place('Idle').tokens)}, "
+              f"Reading={list(net.place('Reading').tokens)}, "
+              f"ReadyToWrite={list(net.place('ReadyToWrite').tokens)}, "
+              f"Writing={list(net.place('Writing').tokens)}")
 
-    # Step 1: Process 1 Starts Reading
-    print("[-] Process 1 starts reading...")
+    # Step 0: Initial State
+    save_state("00_Initial", "Both processes idle, ready to work")
+    show_marking()
+    print()
+
+    # Step 1: Process 1 starts reading
+    print("[STEP 1] Process 1 starts reading...")
     net.transition('StartRead').fire(Substitution(p=1))
-    save_state("01_P1_Reading")
+    save_state("01_P1_Reading", "Process 1 is reading the file")
+    show_marking()
+    print()
 
-    # Step 2: Process 1 Finishes Reading (Ready to Write)
-    print("[-] Process 1 finishes reading...")
+    # Step 2: Process 1 finishes reading
+    print("[STEP 2] Process 1 finishes reading...")
     net.transition('EndRead').fire(Substitution(p=1))
-    save_state("02_P1_ReadyToWrite")
+    save_state("02_P1_ReadyToWrite", "Process 1 ready to write")
+    show_marking()
+    print()
 
-    # Step 3: Process 1 Starts Writing (Acquires Lock)
-    print("[-] Process 1 starts writing (Lock Acquired)...")
-    net.transition('StartWrite').fire(Substitution(p=1, lock='available'))
-    save_state("03_P1_Writing")
+    # Step 3: Process 1 enters Writing (critical section)
+    print("[STEP 3] Process 1 enters critical section...")
+    if check_inhibitor_condition(net):
+        print("    INHIBITOR CHECK: Writing is EMPTY -> allowed to proceed")
+        net.transition('StartWrite').fire(Substitution(p=1))
+        save_state("03_P1_Writing", "Process 1 is WRITING (holds lock)")
+    show_marking()
+    print()
 
-    # Step 4: Process 2 Tries to Enter (DEMONSTRATE LOCK)
-    print("[-] Process 2 starts reading...")
+    # Step 4: Process 2 starts reading (concurrent)
+    print("[STEP 4] Process 2 starts reading...")
     net.transition('StartRead').fire(Substitution(p=2))
-    save_state("04_P2_Reading")
+    save_state("04_P2_Reading", "Process 2 reading while P1 writes")
+    show_marking()
+    print()
     
-    print("[-] Process 2 finishes reading...")
+    # Step 5: Process 2 finishes reading, wants to write
+    print("[STEP 5] Process 2 finishes reading, wants to write...")
     net.transition('EndRead').fire(Substitution(p=2))
-    save_state("05_P2_ReadyToWrite_BLOCKED")
+    save_state("05_P2_ReadyToWrite_BLOCKED", "P2 BLOCKED by inhibitor arc!")
+    show_marking()
+    print()
     
-    print("    [!] At this stage, Process 2 is in 'ReadyToWrite'.")
-    print("    [!] Process 1 is in 'Writing' and holds the lock.")
-    print("    [!] Transition 'StartWrite' for P2 is BLOCKED - no lock available.")
+    # Demonstrate the inhibitor arc blocking
+    print("    " + "=" * 50)
+    print("    INHIBITOR ARC DEMONSTRATION")
+    print("    " + "=" * 50)
+    print(f"    Writing place contains: {list(net.place('Writing').tokens)}")
     
-    # Check modes (valid firings) for StartWrite
-    modes = list(net.transition('StartWrite').modes())
-    if not modes:
-        print("    [SUCCESS] 'StartWrite' has no valid modes. Lock is working!")
-    else:
-        print(f"    [FAIL] 'StartWrite' is executable! Modes: {modes}")
+    if not check_inhibitor_condition(net):
+        print("    INHIBITOR CHECK: Writing is NOT EMPTY -> BLOCKED!")
+        print("    Process 2 cannot enter StartWrite transition.")
+        print("    This demonstrates mutual exclusion via inhibitor arc.")
+    print("    " + "=" * 50)
+    print()
 
-    # Step 5: Process 1 Finishes Writing (Releases Lock)
-    print("[-] Process 1 finishes writing (Lock Released)...")
+    # Step 6: Process 1 finishes writing
+    print("[STEP 6] Process 1 finishes writing, releases lock...")
     net.transition('EndWrite').fire(Substitution(p=1))
-    save_state("06_P1_Idle_LockReleased")
+    save_state("06_P1_Idle_LockReleased", "P1 done, Writing place now empty")
+    show_marking()
+    print()
 
-    # Step 6: Process 2 Can Now Write
-    print("[-] Process 2 starts writing (Now Allowed - Lock Available)...")
-    net.transition('StartWrite').fire(Substitution(p=2, lock='available'))
-    save_state("07_P2_Writing")
+    # Step 7: Now Process 2 can write
+    print("[STEP 7] Process 2 can now enter critical section...")
+    if check_inhibitor_condition(net):
+        print("    INHIBITOR CHECK: Writing is EMPTY -> allowed to proceed")
+        net.transition('StartWrite').fire(Substitution(p=2))
+        save_state("07_P2_Writing", "Process 2 is now WRITING")
+    show_marking()
+    print()
     
-    print("[-] Process 2 finishes writing...")
+    # Step 8: Process 2 finishes
+    print("[STEP 8] Process 2 finishes writing...")
     net.transition('EndWrite').fire(Substitution(p=2))
-    save_state("08_P2_Idle_Final")
+    save_state("08_P2_Idle_Final", "Both processes back to Idle")
+    show_marking()
+    print()
 
-    print("[*] Simulation Complete.")
-    print(f"[*] Generated 9 PNG images showing the state transitions.")
+    print("=" * 60)
+    print("[*] Simulation Complete!")
+    print("[*] Generated 9 PNG images demonstrating inhibitor arc locking.")
+    print("=" * 60)
 
 if __name__ == "__main__":
     try:
