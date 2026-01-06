@@ -128,21 +128,16 @@
             page-break-before: always;
         }
 
-        .two-column {
-            display: flex;
-            gap: 15px;
+        .rationale-box {
+            background: #f9f9f9;
+            border-left: 4px solid #2e7d32;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 10pt;
         }
 
-        .two-column>div {
-            flex: 1;
-        }
-
-        .workflow-list {
-            margin-left: 15px;
-        }
-
-        .workflow-list li {
-            margin: 3px 0;
+        .rationale-box strong {
+            color: #1b5e20;
         }
     </style>
 </head>
@@ -160,8 +155,6 @@
     </div>
 
     <h2>1. Agents and Roles</h2>
-
-    <p>Based on analysis of the ride-share scenario, three primary agents interact to deliver the service:</p>
 
     <table>
         <thead>
@@ -191,33 +184,81 @@
         </tbody>
     </table>
 
-    <h2>2. Goals</h2>
+    <h2>2. Design Rationale</h2>
 
-    <div class="two-column">
-        <div>
-            <h3>Functional Goals</h3>
-            <ul>
-                <li><strong>FG-01 (Registration):</strong> Allow new commuters to register with identity and payment
-                    validation</li>
-                <li><strong>FG-02 (Reservation):</strong> Enable locating and reserving idle scooters</li>
-                <li><strong>FG-03 (Commute):</strong> Allow unlocking and riding the reserved scooter</li>
-                <li><strong>FG-04 (End Ride):</strong> Detect ride termination and lock scooter automatically</li>
-                <li><strong>FG-05 (Payment):</strong> Calculate and debit fees without manual intervention</li>
-            </ul>
-        </div>
-        <div>
-            <h3>Quality Goals</h3>
-            <ul>
-                <li><strong>QG-01 (Data Accuracy):</strong> Real-time scooter status synchronization</li>
-                <li><strong>QG-02 (Billing Precision):</strong> Accurate fee calculation based on exact duration</li>
-                <li><strong>QG-03 (Security):</strong> Encrypted storage of payment credentials</li>
-            </ul>
-        </div>
+    <div class="rationale-box">
+        <strong>Three-Agent Decomposition:</strong> Separating human (Commuter), hardware (E-Scooter), and software
+        (Backend) agents follows the <em>separation of concerns</em> principle, enabling independent development and
+        deployment of each system component.
     </div>
 
-    <h2>3. Ride Cost Computation</h2>
+    <div class="rationale-box">
+        <strong>Time-Based Pricing Choice:</strong> Selected over distance-based due to: (1) user comprehension
+        simplicity, (2) hardware reliability (GPS accuracy issues), and (3) fairness (prevents gaming via circular
+        routes).
+    </div>
 
-    <p>The system uses a <strong>time-based pricing model</strong>:</p>
+    <h2>3. Goals</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 15%">ID</th>
+                <th style="width: 30%">Goal</th>
+                <th style="width: 55%">Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td colspan="3" style="background: #e8f5e9; font-weight: bold;">Functional Goals</td>
+            </tr>
+            <tr>
+                <td>FG-01</td>
+                <td>Registration</td>
+                <td>Allow new commuters to register with identity and payment validation</td>
+            </tr>
+            <tr>
+                <td>FG-02</td>
+                <td>Reservation</td>
+                <td>Enable locating and reserving idle scooters</td>
+            </tr>
+            <tr>
+                <td>FG-03</td>
+                <td>Commute</td>
+                <td>Allow unlocking and riding the reserved scooter</td>
+            </tr>
+            <tr>
+                <td>FG-04</td>
+                <td>End Ride</td>
+                <td>Detect ride termination and lock scooter automatically</td>
+            </tr>
+            <tr>
+                <td>FG-05</td>
+                <td>Payment</td>
+                <td>Calculate and debit fees without manual intervention</td>
+            </tr>
+            <tr>
+                <td colspan="3" style="background: #e8f5e9; font-weight: bold;">Quality Goals</td>
+            </tr>
+            <tr>
+                <td>QG-01</td>
+                <td>Data Accuracy</td>
+                <td>Real-time scooter status synchronization</td>
+            </tr>
+            <tr>
+                <td>QG-02</td>
+                <td>Billing Precision</td>
+                <td>Accurate fee calculation based on exact duration</td>
+            </tr>
+            <tr>
+                <td>QG-03</td>
+                <td>Security</td>
+                <td>Encrypted storage of payment credentials</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>4. Ride Cost Computation</h2>
 
     <div class="formula-box">
         TotalFee = UnlockFee + (Duration<sub>minutes</sub> × Rate<sub>per min</sub>)
@@ -252,40 +293,75 @@
 
     <p><strong>Example:</strong> A 15-minute ride costs €1.00 + (15 × €0.20) = <strong>€4.00</strong></p>
 
-    <h2>4. Behavioral Interface Model (BIM)</h2>
+    <h2>5. Behavioral Interface Model (BIM)</h2>
 
-    <p>The BIM illustrates the dynamic interaction between roles throughout the ride lifecycle:</p>
+    <p>The BIM illustrates the complete interaction workflow, <strong>including error recovery paths</strong>:</p>
 
-    <h3>Process Flow:</h3>
-    <ol class="workflow-list">
-        <li><strong>Registration:</strong> Commuter creates account with verified credentials</li>
-        <li><strong>Reservation:</strong> Commuter selects and reserves an idle scooter</li>
-        <li><strong>Unlock:</strong> Fleet Manager unlocks the vehicle hardware</li>
-        <li><strong>Commute:</strong> Commuter travels to destination</li>
-        <li><strong>End Ride:</strong> Fleet Manager locks vehicle upon session end</li>
-        <li><strong>Payment:</strong> Payment Processor calculates fee and debits account</li>
+    <h3>Happy Path:</h3>
+    <ol>
+        <li>Registration → Account creation</li>
+        <li>Reservation → Scooter selection</li>
+        <li>Unlock → Motor activation</li>
+        <li>Commute → Travel period</li>
+        <li>End Ride → Vehicle lock</li>
+        <li>Payment → Fee deduction</li>
     </ol>
+
+    <h3>Error Handling:</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Error State</th>
+                <th>Trigger</th>
+                <th>Recovery</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>ReservationTimeout</td>
+                <td>User doesn't unlock within 10 min</td>
+                <td>Scooter released, no charge</td>
+            </tr>
+            <tr>
+                <td>PaymentFailed</td>
+                <td>Insufficient funds / card declined</td>
+                <td>Retry (max 3×) → Suspension</td>
+            </tr>
+        </tbody>
+    </table>
 
     <div class="diagram-section">
         <img src="BIM_State_Diagram.png" alt="BIM State Diagram">
-        <p class="figure-caption">Figure 1: Behavioral Interface Model – State Diagram</p>
+        <p class="figure-caption">Figure 1: Behavioral Interface Model with Error Recovery</p>
     </div>
 
     <div class="page-break"></div>
 
-    <h2>5. Goal Hierarchy Diagram (3-Level Tree)</h2>
+    <h2>6. Goal Hierarchy Diagram (Enhanced 4-Level Model)</h2>
 
-    <p>The following diagram shows the hierarchical decomposition of system goals across three levels:</p>
+    <p>The goal hierarchy has been <strong>rebalanced</strong> to distribute complexity evenly:</p>
 
     <ul>
-        <li><strong>Level 1 (Blue):</strong> Main System Goal – Manage E-Scooter Ride Sharing</li>
-        <li><strong>Level 2 (Green):</strong> Sub-Goals – Registration, Ride Operations, Payment Processing</li>
-        <li><strong>Level 3 (Yellow/Light Green):</strong> Leaf Goals – Specific functional and quality objectives</li>
+        <li><strong>Level 1 (Blue):</strong> Main Goal – Manage E-Scooter Ride Sharing</li>
+        <li><strong>Level 2 (Green):</strong> Four Sub-Goals:
+            <ul>
+                <li>SG-1: Manage User Registration</li>
+                <li>SG-2: Manage Scooter Reservations</li>
+                <li>SG-3: Manage Active Rides</li>
+                <li>SG-4: Manage Payment Processing</li>
+            </ul>
+        </li>
+        <li><strong>Level 3 (Yellow/Light Green):</strong> Leaf Goals (5 Functional + 3 Quality)</li>
     </ul>
+
+    <div class="rationale-box">
+        <strong>Hierarchy Balance:</strong> Splitting "Ride Operations" into Reservations (SG-2) and Active Rides (SG-3)
+        creates clearer separation of concerns and prevents one sub-goal from dominating the model.
+    </div>
 
     <div class="diagram-section">
         <img src="Goal_Hierarchy_Diagram.png" alt="Goal Hierarchy Diagram">
-        <p class="figure-caption">Figure 2: AOM Goal Model – 3-Level Hierarchy</p>
+        <p class="figure-caption">Figure 2: AOM Goal Model – Balanced 4-Level Hierarchy</p>
     </div>
 
 </body>

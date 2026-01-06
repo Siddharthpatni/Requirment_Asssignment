@@ -2,8 +2,29 @@ stateDiagram-v2
     [*] --> Register
     Register --> Reserve: Account Created
     Reserve --> Unlock: Scooter Selected
+    Reserve --> ReservationTimeout: Timer Expires
+    ReservationTimeout --> [*]: Scooter Released
+    
     Unlock --> Commute: Motor Activated
     Commute --> EndRide: Destination Reached
     EndRide --> ComputeFee: Ride Data Sent
     ComputeFee --> DebitPayment: Fee Calculated
-    DebitPayment --> [*]: Transaction Complete
+    DebitPayment --> PaymentSuccess: Card Approved
+    DebitPayment --> PaymentFailed: Card Declined
+    
+    PaymentSuccess --> [*]: Transaction Complete
+    PaymentFailed --> RetryPayment: Notify User
+    RetryPayment --> DebitPayment: Retry
+    RetryPayment --> [*]: Max Retries
+
+    note right of ReservationTimeout
+        Error Recovery:
+        User fails to unlock
+        within 10 minutes
+    end note
+    
+    note right of PaymentFailed
+        Error Recovery:
+        Insufficient funds or
+        card validation failure
+    end note
