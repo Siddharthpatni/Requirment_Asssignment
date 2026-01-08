@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>AOM Goal Model - Nikunj</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 15mm;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Times New Roman', Georgia, serif;
+            font-size: 11pt;
+            line-height: 1.4;
+            color: #000;
+            background: white;
+            max-width: 180mm;
+            margin: 0 auto;
+            padding: 10mm;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #000;
+        }
+
+        .header h1 {
+            font-size: 16pt;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .header-meta {
+            font-size: 10pt;
+            line-height: 1.6;
+        }
+
+        .diagram-section {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .diagram-section img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .figure-caption {
+            font-size: 10pt;
+            font-style: italic;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .legend {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            background: #f9f9f9;
+        }
+
+        .legend h3 {
+            font-size: 11pt;
+            margin-bottom: 10px;
+        }
+
+        .legend-item {
+            display: inline-block;
+            margin: 5px 15px 5px 0;
+            font-size: 10pt;
+        }
+
+        .legend-color {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            vertical-align: middle;
+            margin-right: 5px;
+            border: 1px solid #333;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>AOM Goal Model: E-Scooter Ride-Share System</h1>
+        <div class="header-meta">
+            <strong>TU Clausthal</strong> | Institut für Software and Systems Engineering<br>
+            <strong>Course:</strong> Requirements Engineering | <strong>Exercise:</strong> 04<br>
+            <strong>Submitted By:</strong> Nikunj | <strong>Date:</strong> 11.01.2026
+        </div>
+    </div>
+
+    <div class="diagram-section">
+        <img src="Goal_Hierarchy_Nikunj.png" alt="AOM Goal Hierarchy Diagram">
+        <p class="figure-caption">Figure: AOM Goal Hierarchy Model - Three-Level Structure</p>
+    </div>
+
+    <div class="legend">
+        <h3>Legend</h3>
+        <div class="legend-item">
+            <span class="legend-color" style="background: #7b1fa2;"></span>
+            Level 1: Main Goal
+        </div>
+        <div class="legend-item">
+            <span class="legend-color" style="background: #00838f;"></span>
+            Level 2: Sub-Goals
+        </div>
+        <div class="legend-item">
+            <span class="legend-color" style="background: #ff8f00;"></span>
+            Level 3: Functional Goals
+        </div>
+        <div class="legend-item">
+            <span class="legend-color" style="background: #43a047;"></span>
+            Level 3: Quality Goals
+        </div>
+    </div>
+
+    <div style="margin-top: 20px;">
+        <h3 style="font-size: 11pt; margin-bottom: 8px;">Goal Descriptions</h3>
+        <table style="width: 100%; border-collapse: collapse; font-size: 10pt;">
+            <tr>
+                <th style="border: 1px solid #000; padding: 5px; background: #e0e0e0; width: 20%;">Goal ID</th>
+                <th style="border: 1px solid #000; padding: 5px; background: #e0e0e0;">Description</th>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #000; padding: 5px;">MG</td>
+                <td style="border: 1px solid #000; padding: 5px;">Operate E-Scooter Ride-Share Service (Main Goal)</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #000; padding: 5px;">SG-A</td>
+                <td style="border: 1px solid #000; padding: 5px;">Manage Customer Lifecycle (Registration, Security)
+                </td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #000; padding: 5px;">SG-B</td>
+                <td style="border: 1px solid #000; padding: 5px;">Manage Vehicle Operations (Booking, Trip Management,
+                    Fleet)</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #000; padding: 5px;">SG-C</td>
+                <td style="border: 1px solid #000; padding: 5px;">Manage Financial Processing (Billing, Fee Settlement)
+                </td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #000; padding: 5px;">F-1 to F-5</td>
+                <td style="border: 1px solid #000; padding: 5px;">Functional Goals: Account Creation, Vehicle Booking,
+                    Trip Start, Trip Completion, Fee Settlement</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #000; padding: 5px;">Q-1 to Q-3</td>
+                <td style="border: 1px solid #000; padding: 5px;">Quality Goals: Fleet Visibility, Billing Transparency,
+                    Payment Security</td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+
+</html>

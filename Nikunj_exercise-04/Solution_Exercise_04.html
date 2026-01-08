@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise 04 - E-Scooter Ride-Share System</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 15mm;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Times New Roman', Georgia, serif;
+            font-size: 11pt;
+            line-height: 1.35;
+            color: #000;
+            background: white;
+            max-width: 180mm;
+            margin: 0 auto;
+            padding: 8mm;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #000;
+        }
+
+        .header h1 {
+            font-size: 15pt;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .header-meta {
+            font-size: 10pt;
+            line-height: 1.5;
+        }
+
+        h2 {
+            font-size: 12pt;
+            font-weight: bold;
+            margin-top: 12px;
+            margin-bottom: 6px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 2px;
+        }
+
+        h3 {
+            font-size: 11pt;
+            font-weight: bold;
+            margin-top: 8px;
+            margin-bottom: 4px;
+        }
+
+        p {
+            margin-bottom: 6px;
+            text-align: justify;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 8px 0;
+            font-size: 10pt;
+        }
+
+        th,
+        td {
+            border: 1px solid #000;
+            padding: 5px 6px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background: #e0e0e0;
+            font-weight: bold;
+        }
+
+        ul,
+        ol {
+            margin: 6px 0 6px 18px;
+        }
+
+        li {
+            margin: 3px 0;
+        }
+
+        .formula-box {
+            background: #f5f5f5;
+            border: 1px solid #999;
+            padding: 8px;
+            margin: 8px 0;
+            text-align: center;
+            font-family: 'Times New Roman', serif;
+            font-size: 11pt;
+            font-weight: bold;
+        }
+
+        .diagram-section {
+            margin: 12px 0;
+            text-align: center;
+        }
+
+        .diagram-section img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ccc;
+        }
+
+        .figure-caption {
+            font-size: 9pt;
+            font-style: italic;
+            margin-top: 4px;
+            text-align: center;
+        }
+
+        .page-break {
+            page-break-before: always;
+        }
+
+        .note-box {
+            background: #f0f7ff;
+            border-left: 3px solid #1565c0;
+            padding: 8px;
+            margin: 8px 0;
+            font-size: 10pt;
+        }
+
+        .note-box strong {
+            color: #0d47a1;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>Solution for Exercise 04: E-Scooter Ride-Share System</h1>
+        <div class="header-meta">
+            <strong>TU Clausthal</strong> | Institut für Software and Systems Engineering<br>
+            <strong>Course:</strong> Requirements Engineering | <strong>Exercise:</strong> 04 (Agent-Oriented
+            Modeling)<br>
+            <strong>Submitted By:</strong> Nikunj | <strong>Date:</strong> 11.01.2026
+        </div>
+    </div>
+
+    <h2>1. Agents and Roles</h2>
+
+    <p>The E-Scooter ride-share system comprises three interacting agents, each fulfilling a specific role:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 22%">Agent</th>
+                <th style="width: 22%">Role</th>
+                <th style="width: 56%">Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Customer (Human)</td>
+                <td>Rider Role</td>
+                <td>Manages account setup, vehicle booking, trip execution, and authorizes payment deduction</td>
+            </tr>
+            <tr>
+                <td>Vehicle Unit (Hardware)</td>
+                <td>Mobility Controller Role</td>
+                <td>Operates lock/unlock mechanism, monitors battery status, tracks GPS position, controls motor</td>
+            </tr>
+            <tr>
+                <td>Central Server (Software)</td>
+                <td>Operations Coordinator Role</td>
+                <td>Handles user verification, fleet coordination, fare computation, and payment processing</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="note-box">
+        <strong>Design Rationale:</strong> The three-agent model separates human interaction (Customer), physical device
+        control (Vehicle Unit), and business logic (Central Server), enabling independent development and maintenance of
+        each component.
+    </div>
+
+    <h2>2. Goals</h2>
+
+    <h3>2.1 Functional Goals</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 12%">ID</th>
+                <th style="width: 25%">Goal</th>
+                <th style="width: 63%">Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>F-1</td>
+                <td>Account Creation</td>
+                <td>Enable customers to register with identity verification and payment method linkage</td>
+            </tr>
+            <tr>
+                <td>F-2</td>
+                <td>Vehicle Booking</td>
+                <td>Allow customers to locate nearby vehicles and reserve for immediate use</td>
+            </tr>
+            <tr>
+                <td>F-3</td>
+                <td>Trip Start</td>
+                <td>Authenticate customer and activate vehicle motor upon booking confirmation</td>
+            </tr>
+            <tr>
+                <td>F-4</td>
+                <td>Trip Completion</td>
+                <td>Detect destination arrival, deactivate motor, and secure vehicle lock</td>
+            </tr>
+            <tr>
+                <td>F-5</td>
+                <td>Fee Settlement</td>
+                <td>Calculate fare based on usage metrics and execute automatic payment</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>2.2 Quality Goals</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 12%">ID</th>
+                <th style="width: 25%">Goal</th>
+                <th style="width: 63%">Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Q-1</td>
+                <td>Fleet Visibility</td>
+                <td>Maintain real-time synchronization of all vehicle locations and availability status</td>
+            </tr>
+            <tr>
+                <td>Q-2</td>
+                <td>Billing Transparency</td>
+                <td>Provide itemized fare breakdown visible to customer before payment</td>
+            </tr>
+            <tr>
+                <td>Q-3</td>
+                <td>Payment Security</td>
+                <td>Store and transmit financial data using industry-standard encryption</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>3. Ride Cost Computation</h2>
+
+    <p>The system uses a <strong>hybrid pricing model</strong> combining time and distance:</p>
+
+    <div class="formula-box">
+        TotalFare = BaseFee + (Minutes × TimeRate) + (Kilometers × DistanceRate)
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Parameter</th>
+                <th>Description</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>BaseFee</td>
+                <td>Initial unlock charge</td>
+                <td>€0.75</td>
+            </tr>
+            <tr>
+                <td>TimeRate</td>
+                <td>Per-minute charge</td>
+                <td>€0.10</td>
+            </tr>
+            <tr>
+                <td>DistanceRate</td>
+                <td>Per-kilometer charge</td>
+                <td>€0.15</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p><strong>Example:</strong> A 12-minute, 3 km ride: €0.75 + (12 × €0.10) + (3 × €0.15) = <strong>€2.40</strong></p>
+
+    <div class="page-break"></div>
+
+    <h2>4. Behavioral Interface Model (BIM)</h2>
+
+    <p>The BIM captures the complete interaction flow between agents, including normal operation and exception handling:
+    </p>
+
+    <h3>4.1 Normal Workflow</h3>
+    <ol>
+        <li><strong>Register:</strong> Customer creates account with verified credentials</li>
+        <li><strong>Search:</strong> Customer browses available vehicles on map</li>
+        <li><strong>Book:</strong> Customer selects and reserves specific vehicle</li>
+        <li><strong>Activate:</strong> Vehicle Unit unlocks upon customer proximity verification</li>
+        <li><strong>Ride:</strong> Customer travels to destination</li>
+        <li><strong>Park:</strong> Customer ends ride, Vehicle Unit locks automatically</li>
+        <li><strong>Pay:</strong> Central Server calculates fare and debits registered payment method</li>
+    </ol>
+
+    <h3>4.2 Exception Handling</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Exception</th>
+                <th>Trigger</th>
+                <th>Recovery Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>BookingExpiry</td>
+                <td>Customer doesn't activate within 5 minutes</td>
+                <td>Release vehicle to pool, no charge applied</td>
+            </tr>
+            <tr>
+                <td>PaymentRejected</td>
+                <td>Insufficient balance or card error</td>
+                <td>Notify customer, allow 3 retry attempts, then suspend account</td>
+            </tr>
+            <tr>
+                <td>VehicleMalfunction</td>
+                <td>Hardware failure during ride</td>
+                <td>End ride at current location, waive fare, report for maintenance</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="diagram-section">
+        <img src="BIM_Nikunj.png" alt="BIM State Diagram">
+        <p class="figure-caption">Figure 1: Behavioral Interface Model - State Diagram with Exception Handling</p>
+    </div>
+
+    <div class="page-break"></div>
+
+    <h2>5. AOM Goal Hierarchy (3-Level Model)</h2>
+
+    <p>The goal model follows a balanced three-level structure ensuring clear traceability:</p>
+
+    <ul>
+        <li><strong>Level 1 (Main Goal):</strong> Operate E-Scooter Ride-Share Service</li>
+        <li><strong>Level 2 (Sub-Goals):</strong>
+            <ul>
+                <li>SG-A: Manage Customer Lifecycle</li>
+                <li>SG-B: Manage Vehicle Operations</li>
+                <li>SG-C: Manage Financial Processing</li>
+            </ul>
+        </li>
+        <li><strong>Level 3 (Leaf Goals):</strong> 5 Functional Goals (F-1 to F-5) + 3 Quality Goals (Q-1 to Q-3)</li>
+    </ul>
+
+    <h3>Goal-to-Role Mapping</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Goal</th>
+                <th>Primary Role</th>
+                <th>Supporting Role(s)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>F-1: Account Creation</td>
+                <td>Operations Coordinator</td>
+                <td>Rider</td>
+            </tr>
+            <tr>
+                <td>F-2: Vehicle Booking</td>
+                <td>Operations Coordinator</td>
+                <td>Mobility Controller</td>
+            </tr>
+            <tr>
+                <td>F-3: Trip Start</td>
+                <td>Mobility Controller</td>
+                <td>Operations Coordinator</td>
+            </tr>
+            <tr>
+                <td>F-4: Trip Completion</td>
+                <td>Mobility Controller</td>
+                <td>Rider</td>
+            </tr>
+            <tr>
+                <td>F-5: Fee Settlement</td>
+                <td>Operations Coordinator</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Q-1: Fleet Visibility</td>
+                <td>Mobility Controller</td>
+                <td>Operations Coordinator</td>
+            </tr>
+            <tr>
+                <td>Q-2: Billing Transparency</td>
+                <td>Operations Coordinator</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Q-3: Payment Security</td>
+                <td>Operations Coordinator</td>
+                <td>-</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="diagram-section">
+        <img src="Goal_Hierarchy_Nikunj.png" alt="Goal Hierarchy Diagram">
+        <p class="figure-caption">Figure 2: AOM Goal Model - Three-Level Hierarchy</p>
+    </div>
+
+</body>
+
+</html>

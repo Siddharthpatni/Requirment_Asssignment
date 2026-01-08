@@ -1,0 +1,30 @@
+stateDiagram-v2
+    [*] --> Unregistered
+    
+    Unregistered --> Registering: Submit Details
+    Registering --> AccountActive: Verification OK
+    Registering --> Unregistered: Verification Failed
+    
+    AccountActive --> Searching: Find Vehicle
+    Searching --> VehicleBooked: Select Vehicle
+    Searching --> AccountActive: None Available
+    
+    VehicleBooked --> VehicleActivated: Confirm Booking
+    VehicleBooked --> AccountActive: Booking Timeout
+    
+    VehicleActivated --> InTransit: Start Moving
+    InTransit --> TripEnding: End Ride
+    InTransit --> EmergencyStop: Vehicle Error
+    
+    EmergencyStop --> AccountActive: Fare Waived
+    
+    TripEnding --> FareCalculation: Lock Confirmed
+    FareCalculation --> PaymentPending: Display Fare
+    PaymentPending --> TransactionComplete: Payment OK
+    PaymentPending --> PaymentRetry: Payment Rejected
+    
+    PaymentRetry --> PaymentPending: Retry
+    PaymentRetry --> Suspended: Max Retries
+    
+    TransactionComplete --> AccountActive: Ready
+    Suspended --> [*]

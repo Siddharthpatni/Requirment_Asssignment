@@ -1,0 +1,42 @@
+graph TD
+    MG["<b>MG: Operate E-Scooter<br/>Ride-Share Service</b>"]
+    
+    SGA["<b>SG-A: Manage Customer<br/>Lifecycle</b>"]
+    SGB["<b>SG-B: Manage Vehicle<br/>Operations</b>"]
+    SGC["<b>SG-C: Manage Financial<br/>Processing</b>"]
+    
+    F1["F-1: Account<br/>Creation"]
+    F2["F-2: Vehicle<br/>Booking"]
+    F3["F-3: Trip<br/>Start"]
+    F4["F-4: Trip<br/>Completion"]
+    F5["F-5: Fee<br/>Settlement"]
+    
+    Q1["Q-1: Fleet<br/>Visibility"]
+    Q2["Q-2: Billing<br/>Transparency"]
+    Q3["Q-3: Payment<br/>Security"]
+    
+    MG --> SGA
+    MG --> SGB
+    MG --> SGC
+    
+    SGA --> F1
+    SGA --> Q3
+    SGB --> F2
+    SGB --> F3
+    SGB --> F4
+    SGB --> Q1
+    SGC --> F5
+    SGC --> Q2
+    
+    style MG fill:#7b1fa2,stroke:#4a148c,color:#fff,stroke-width:3px
+    style SGA fill:#00838f,stroke:#006064,color:#fff
+    style SGB fill:#00838f,stroke:#006064,color:#fff
+    style SGC fill:#00838f,stroke:#006064,color:#fff
+    style F1 fill:#ff8f00,stroke:#ef6c00,color:#000
+    style F2 fill:#ff8f00,stroke:#ef6c00,color:#000
+    style F3 fill:#ff8f00,stroke:#ef6c00,color:#000
+    style F4 fill:#ff8f00,stroke:#ef6c00,color:#000
+    style F5 fill:#ff8f00,stroke:#ef6c00,color:#000
+    style Q1 fill:#43a047,stroke:#2e7d32,color:#fff
+    style Q2 fill:#43a047,stroke:#2e7d32,color:#fff
+    style Q3 fill:#43a047,stroke:#2e7d32,color:#fff
