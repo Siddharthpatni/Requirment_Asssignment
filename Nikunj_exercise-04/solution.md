@@ -1,4 +1,4 @@
-# Solution for Exercise 04: E-Scooter Ride-Share System
+# Exercise 04 Solution: E-Scooter Rental Platform
 
 **TU Clausthal** | Institut für Software and Systems Engineering  
 **Course:** Requirements Engineering | **Exercise:** 04 (Agent-Oriented Modeling)  
@@ -6,208 +6,250 @@
 
 ---
 
-## 1. Agents and Roles
+## 1. System Actors Identification
 
-| Agent | Role | Description |
-|-------|------|-------------|
-| Commuter (Human) | Commuter Role | Handles user-side processes: registration, scooter reservation, riding, and payment authorization |
-| E-Scooter (Hardware) | Fleet Manager Role | Controls physical vehicle state (lock/unlock), reports real-time status and GPS location |
-| Backend System (Software) | Payment Processor Role | Manages account verification, fee computation, and secure financial transactions |
+The E-Scooter rental platform involves three distinct system actors with clearly defined responsibilities:
 
----
-
-## 2. Design Rationale
-
-### Three-Agent Decomposition
-Separating human (Commuter), hardware (E-Scooter), and software (Backend) agents follows the *separation of concerns* principle, enabling independent development and deployment of each system component.
-
-### Time-Based Pricing Choice
-Selected over distance-based due to:
-1. User comprehension simplicity
-2. Hardware reliability (GPS accuracy issues)
-3. Fairness (prevents gaming via circular routes)
+| Actor | Assigned Role | Key Responsibilities |
+|-------|---------------|---------------------|
+| Rider (Human Actor) | Customer Service Role | Account setup, vehicle selection, trip execution, payment confirmation |
+| Smart Vehicle (IoT Device) | Vehicle Controller Role | Motor operation, GPS tracking, battery monitoring, lock mechanism control |
+| Cloud Platform (Software System) | Transaction Manager Role | User authentication, fare calculation, payment gateway integration, analytics |
 
 ---
 
-## 3. Goals
+## 2. Architectural Justification
 
-### Functional Goals
+### Actor Separation Principle
 
-| ID | Goal | Description |
-|----|------|-------------|
-| FG-01 | Registration | Allow new commuters to register with identity and payment validation |
-| FG-02 | Reservation | Enable locating and reserving idle scooters |
-| FG-03 | Commute | Allow unlocking and riding the reserved scooter |
-| FG-04 | End Ride | Detect ride termination and lock scooter automatically |
-| FG-05 | Payment | Calculate and debit fees without manual intervention |
+The three-actor architecture was selected based on **responsibility isolation**:
 
-### Quality Goals
+1. **Rider Actor:** External user with autonomous decision-making capability. The system must accommodate varying user preferences and behaviors.
 
-| ID | Goal | Description |
-|----|------|-------------|
-| QG-01 | Data Accuracy | Real-time scooter status synchronization |
-| QG-02 | Billing Precision | Accurate fee calculation based on exact duration |
-| QG-03 | Security | Encrypted storage of payment credentials |
+2. **Smart Vehicle Actor:** IoT devices operate under network latency constraints and require independent state management for safety-critical operations like emergency braking.
+
+3. **Cloud Platform Actor:** Centralized processing enables cross-device coordination, historical data analysis, and scalable transaction handling.
+
+**Rejected Alternative:** A monolithic two-actor design would couple hardware control with business logic, creating deployment and maintenance challenges.
+
+### Distance-Based Pricing Rationale
+
+**Distance-based pricing** was implemented for the following reasons:
+
+1. **Usage Fairness:** Users pay proportionally to actual vehicle wear and energy consumption
+2. **Incentive Alignment:** Encourages efficient route planning
+3. **Market Differentiation:** Distinct from competitors using time-based models
+
+**Mitigation:** Minimum fare threshold prevents micro-trip exploitation.
 
 ---
 
-## 4. Ride Cost Computation
+## 3. System Objectives
 
-### Formula
+### Operational Objectives
+
+| Code | Objective | Implementation Scope |
+|------|-----------|---------------------|
+| **OP-01** | User Onboarding | Enable account creation with license verification and wallet setup |
+| **OP-02** | Vehicle Discovery | Provide map-based search for nearby available vehicles |
+| **OP-03** | Trip Activation | Allow QR code scanning to initiate ride session |
+| **OP-04** | Trip Termination | Support manual end-ride action or geofence-triggered completion |
+| **OP-05** | Billing Execution | Process automated fare deduction post-trip |
+
+### Performance Objectives
+
+| Code | Objective | Acceptance Criteria |
+|------|-----------|---------------------|
+| **PF-01** | System Responsiveness | Vehicle unlock within 3 seconds of request |
+| **PF-02** | Fare Accuracy | Distance calculation error margin < 2% |
+| **PF-03** | Data Protection | PCI-DSS compliant payment storage |
+
+---
+
+## 4. Objective Decomposition Model
+
+The objective hierarchy follows a **balanced three-tier structure**:
+
+- **Tier 1:** Strategic Objective – Operate E-Scooter Rental Service
+- **Tier 2:** Tactical Objectives:
+  - TO-A: Handle User Lifecycle Management
+  - TO-B: Manage Vehicle Fleet Operations
+  - TO-C: Execute Financial Transactions
+  - TO-D: Ensure Platform Reliability
+- **Tier 3:** Operational Objectives (5) + Performance Objectives (3)
+
+**Structural Decision:** Separating Fleet Operations (TO-B) from Financial Processing (TO-C) enables independent scaling of hardware management and payment processing subsystems.
+
+```mermaid
+graph TB
+    subgraph "Tier 1 - Strategic"
+        SO["📊 Operate E-Scooter Rental Service"]
+    end
+    
+    subgraph "Tier 2 - Tactical"
+        TOA["👤 TO-A: User Lifecycle"]
+        TOB["🛴 TO-B: Fleet Operations"]
+        TOC["💰 TO-C: Financial Transactions"]
+        TOD["🔒 TO-D: Platform Reliability"]
+    end
+    
+    subgraph "Tier 3 - Operational"
+        OP1["OP-01: User Onboarding"]
+        OP2["OP-02: Vehicle Discovery"]
+        OP3["OP-03: Trip Activation"]
+        OP4["OP-04: Trip Termination"]
+        OP5["OP-05: Billing Execution"]
+    end
+    
+    subgraph "Tier 3 - Performance"
+        PF1["PF-01: Responsiveness"]
+        PF2["PF-02: Fare Accuracy"]
+        PF3["PF-03: Data Protection"]
+    end
+    
+    SO --> TOA
+    SO --> TOB
+    SO --> TOC
+    SO --> TOD
+    
+    TOA --> OP1
+    TOA --> PF3
+    
+    TOB --> OP2
+    TOB --> OP3
+    TOB --> OP4
+    TOB --> PF1
+    
+    TOC --> OP5
+    TOC --> PF2
+    
+    TOD --> PF1
+    TOD --> PF3
+    
+    style SO fill:#1565c0,stroke:#0d47a1,color:#fff
+    style TOA fill:#2e7d32,stroke:#1b5e20,color:#fff
+    style TOB fill:#2e7d32,stroke:#1b5e20,color:#fff
+    style TOC fill:#2e7d32,stroke:#1b5e20,color:#fff
+    style TOD fill:#2e7d32,stroke:#1b5e20,color:#fff
+    style OP1 fill:#f9a825,stroke:#f57f17
+    style OP2 fill:#f9a825,stroke:#f57f17
+    style OP3 fill:#f9a825,stroke:#f57f17
+    style OP4 fill:#f9a825,stroke:#f57f17
+    style OP5 fill:#f9a825,stroke:#f57f17
+    style PF1 fill:#7b1fa2,stroke:#4a148c,color:#fff
+    style PF2 fill:#7b1fa2,stroke:#4a148c,color:#fff
+    style PF3 fill:#7b1fa2,stroke:#4a148c,color:#fff
+```
+
+---
+
+## 5. Fare Calculation Model
+
+The platform implements a **distance-based pricing structure**:
 
 ```
-TotalFee = UnlockFee + (Duration_minutes × Rate_per_min)
+TripFare = BaseFee + (DistanceKm × RatePerKm) + SurchargeFees
 ```
 
-### Variables
+### Pricing Parameters
 
-| Variable | Description | Example Value |
-|----------|-------------|---------------|
-| UnlockFee | Fixed starting fee | €1.00 |
-| Duration | Time from unlock to end ride (rounded up) | 15 minutes |
-| Rate | Per-minute usage charge | €0.20 |
+| Parameter | Description | Default Value |
+|-----------|-------------|---------------|
+| BaseFee | Initial activation charge | €0.50 |
+| DistanceKm | Trip distance via GPS tracking | Variable |
+| RatePerKm | Per-kilometer usage rate | €0.25 |
+| SurchargeFees | Peak hours, low battery zones | €0.00 - €1.00 |
 
-**Example:** A 15-minute ride costs €1.00 + (15 × €0.20) = **€4.00**
+**Sample Calculation:**  
+A 6 km trip during peak hours:  
+€0.50 + (6 × €0.25) + €0.50 = **€2.50**
 
 ---
 
-## 5. Behavioral Interface Model (BIM)
+## 6. Interaction Flow Specification
 
-The BIM illustrates the complete interaction workflow, **including error recovery paths**.
+The interaction model captures the complete rental workflow with exception handling:
 
-### Happy Path
+### Standard Workflow
 
-1. Registration → Account creation
-2. Reservation → Scooter selection
-3. Unlock → Motor activation
-4. Commute → Travel period
-5. End Ride → Vehicle lock
-6. Payment → Fee deduction
+1. **Onboard** → Rider creates verified account
+2. **Discover** → Rider locates nearby vehicle via app
+3. **Activate** → Rider scans QR to unlock vehicle
+4. **Travel** → Rider completes journey
+5. **Terminate** → Rider parks and ends session
+6. **Settle** → Platform calculates and deducts fare
 
-### Error Handling
+### Exception Scenarios
 
-| Error State | Trigger | Recovery |
-|-------------|---------|----------|
-| ReservationTimeout | User doesn't unlock within 10 min | Scooter released, no charge |
-| PaymentFailed | Insufficient funds / card declined | Retry (max 3×) → Suspension |
-
-### BIM State Diagram
+| Exception | Trigger Condition | Resolution Strategy |
+|-----------|------------------|---------------------|
+| **ActivationFailure** | Vehicle hardware malfunction | Reassign alternative vehicle, no charge |
+| **TransactionDeclined** | Payment method rejected | Prompt card update, temporary suspension after 48h |
+| **GeofenceViolation** | Vehicle exits permitted zone | Audio warning + automatic speed reduction |
 
 ```mermaid
 stateDiagram-v2
-    [*] --> Unregistered
+    [*] --> NotRegistered
     
-    Unregistered --> Registering: Submit Registration
-    Registering --> Registered: Validation Success
-    Registering --> Unregistered: Validation Failed
+    NotRegistered --> Onboarding: Create Account
+    Onboarding --> AccountActive: Verification Complete
+    Onboarding --> NotRegistered: Verification Failed
     
-    Registered --> SearchingScooter: Find Scooter
-    SearchingScooter --> ScooterReserved: Reserve Scooter
-    SearchingScooter --> Registered: No Scooter Available
+    AccountActive --> Browsing: Open App
+    Browsing --> VehicleSelected: Select Vehicle
+    Browsing --> AccountActive: No Vehicle Found
     
-    ScooterReserved --> ScooterUnlocked: Unlock Scooter
-    ScooterReserved --> Registered: Reservation Timeout (10 min)
+    VehicleSelected --> TripActive: Scan QR Code
+    VehicleSelected --> Browsing: Activation Timeout (5 min)
+    VehicleSelected --> ActivationError: Hardware Failure
     
-    ScooterUnlocked --> Riding: Start Ride
-    Riding --> RideEnded: End Ride
+    ActivationError --> Browsing: Reassign Vehicle
     
-    RideEnded --> PaymentProcessing: Calculate Fee
-    PaymentProcessing --> PaymentComplete: Payment Success
-    PaymentProcessing --> PaymentFailed: Payment Failed
+    TripActive --> Traveling: Begin Journey
+    Traveling --> TripActive: Pause Ride
+    Traveling --> GeofenceAlert: Exit Permitted Zone
     
-    PaymentFailed --> PaymentProcessing: Retry Payment
-    PaymentFailed --> AccountSuspended: Max Retries (3x)
+    GeofenceAlert --> Traveling: Return to Zone
+    GeofenceAlert --> TripEnding: Force End Trip
     
-    PaymentComplete --> Registered: Ready for Next Ride
+    Traveling --> TripEnding: End Ride Request
+    TripEnding --> FareCalculation: Lock Confirmed
+    
+    FareCalculation --> PaymentProcessing: Calculate Fare
+    PaymentProcessing --> TripComplete: Payment Success
+    PaymentProcessing --> PaymentPending: Payment Failed
+    
+    PaymentPending --> PaymentProcessing: Retry Payment
+    PaymentPending --> AccountSuspended: Max Retries Exceeded
+    
+    TripComplete --> AccountActive: Ready for Next Trip
     AccountSuspended --> [*]
 ```
 
 ---
 
-## 6. Goal Hierarchy Diagram (Enhanced 4-Level Model)
+## 7. Model Validation
 
-The goal hierarchy has been **rebalanced** to distribute complexity evenly:
+### Completeness Check
 
-- **Level 1 (Blue):** Main Goal – Manage E-Scooter Ride Sharing
-- **Level 2 (Green):** Four Sub-Goals:
-  - SG-1: Manage User Registration
-  - SG-2: Manage Scooter Reservations
-  - SG-3: Manage Active Rides
-  - SG-4: Manage Payment Processing
-- **Level 3 (Yellow/Light Green):** Leaf Goals (5 Functional + 3 Quality)
+- ✅ All actors identified with distinct responsibilities
+- ✅ Operational and performance objectives defined
+- ✅ Pricing model specified with example calculation
+- ✅ Happy path and exception flows documented
+- ✅ State diagram covers all transitions
 
-### Hierarchy Balance
-Splitting "Ride Operations" into Reservations (SG-2) and Active Rides (SG-3) creates clearer separation of concerns and prevents one sub-goal from dominating the model.
+### Traceability Matrix
 
-### Goal Hierarchy Diagram
-
-```mermaid
-graph TD
-    subgraph Level1["Level 1 - Main Goal"]
-        MG["🎯 Manage E-Scooter Ride Sharing"]
-    end
-    
-    subgraph Level2["Level 2 - Sub-Goals"]
-        SG1["📝 SG-1: Manage User Registration"]
-        SG2["🔍 SG-2: Manage Scooter Reservations"]
-        SG3["🛴 SG-3: Manage Active Rides"]
-        SG4["💳 SG-4: Manage Payment Processing"]
-    end
-    
-    subgraph Level3["Level 3 - Functional Goals"]
-        FG1["FG-01: Registration"]
-        FG2["FG-02: Reservation"]
-        FG3["FG-03: Commute"]
-        FG4["FG-04: End Ride"]
-        FG5["FG-05: Payment"]
-    end
-    
-    subgraph Level3Q["Level 3 - Quality Goals"]
-        QG1["QG-01: Data Accuracy"]
-        QG2["QG-02: Billing Precision"]
-        QG3["QG-03: Security"]
-    end
-    
-    MG --> SG1
-    MG --> SG2
-    MG --> SG3
-    MG --> SG4
-    
-    SG1 --> FG1
-    SG1 --> QG3
-    
-    SG2 --> FG2
-    SG2 --> QG1
-    
-    SG3 --> FG3
-    SG3 --> FG4
-    
-    SG4 --> FG5
-    SG4 --> QG2
-    
-    style MG fill:#4285f4,stroke:#333,color:#fff
-    style SG1 fill:#34a853,stroke:#333,color:#fff
-    style SG2 fill:#34a853,stroke:#333,color:#fff
-    style SG3 fill:#34a853,stroke:#333,color:#fff
-    style SG4 fill:#34a853,stroke:#333,color:#fff
-    style FG1 fill:#fbbc04,stroke:#333
-    style FG2 fill:#fbbc04,stroke:#333
-    style FG3 fill:#fbbc04,stroke:#333
-    style FG4 fill:#fbbc04,stroke:#333
-    style FG5 fill:#fbbc04,stroke:#333
-    style QG1 fill:#ea4335,stroke:#333,color:#fff
-    style QG2 fill:#ea4335,stroke:#333,color:#fff
-    style QG3 fill:#ea4335,stroke:#333,color:#fff
-```
+| Objective | Actor Responsible | Workflow Step |
+|-----------|------------------|---------------|
+| OP-01 | Cloud Platform | Onboard |
+| OP-02 | Cloud Platform, Smart Vehicle | Discover |
+| OP-03 | Smart Vehicle | Activate |
+| OP-04 | Rider, Smart Vehicle | Terminate |
+| OP-05 | Cloud Platform | Settle |
 
 ---
 
-## Summary
+## 8. Conclusion
 
-This solution provides a comprehensive Agent-Oriented Model for the E-Scooter Ride-Share System, covering:
-
-1. **Agent identification** with clear role separation
-2. **Goal decomposition** into functional and quality goals
-3. **Cost computation** with transparent pricing formula
-4. **Behavioral modeling** with state diagrams including error handling
-5. **Goal hierarchy** with balanced 4-level structure
+This AOM solution provides a comprehensive model for the E-Scooter rental platform using distance-based pricing and robust exception handling. The three-tier objective hierarchy enables clear responsibility allocation while maintaining operational flexibility for future enhancements.
