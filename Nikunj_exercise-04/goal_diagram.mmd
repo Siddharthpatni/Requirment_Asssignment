@@ -1,42 +1,42 @@
 graph TD
-    MG["<b>MG: Operate E-Scooter<br/>Ride-Share Service</b>"]
+    RG["<b>RG: Deliver Urban<br/>Micro-Mobility Service</b>"]
     
-    SGA["<b>SG-A: Manage Customer<br/>Lifecycle</b>"]
-    SGB["<b>SG-B: Manage Vehicle<br/>Operations</b>"]
-    SGC["<b>SG-C: Manage Financial<br/>Processing</b>"]
+    BG1["<b>BG-1: Onboard<br/>Users</b>"]
+    BG2["<b>BG-2: Facilitate<br/>Rides</b>"]
+    BG3["<b>BG-3: Process<br/>Transactions</b>"]
     
-    F1["F-1: Account<br/>Creation"]
-    F2["F-2: Vehicle<br/>Booking"]
-    F3["F-3: Trip<br/>Start"]
-    F4["F-4: Trip<br/>Completion"]
-    F5["F-5: Fee<br/>Settlement"]
+    FN1["FN-1: User<br/>Enrollment"]
+    FN2["FN-2: Asset<br/>Discovery"]
+    FN3["FN-3: Session<br/>Initiation"]
+    FN4["FN-4: Session<br/>Termination"]
+    FN5["FN-5: Fare<br/>Processing"]
     
-    Q1["Q-1: Fleet<br/>Visibility"]
-    Q2["Q-2: Billing<br/>Transparency"]
-    Q3["Q-3: Payment<br/>Security"]
+    QL1["QL-1: Location<br/>Accuracy"]
+    QL2["QL-2: Pricing<br/>Fairness"]
+    QL3["QL-3: Transaction<br/>Security"]
     
-    MG --> SGA
-    MG --> SGB
-    MG --> SGC
+    RG --> BG1
+    RG --> BG2
+    RG --> BG3
     
-    SGA --> F1
-    SGA --> Q3
-    SGB --> F2
-    SGB --> F3
-    SGB --> F4
-    SGB --> Q1
-    SGC --> F5
-    SGC --> Q2
+    BG1 --> FN1
+    BG1 --> QL3
+    BG2 --> FN2
+    BG2 --> FN3
+    BG2 --> FN4
+    BG2 --> QL1
+    BG3 --> FN5
+    BG3 --> QL2
     
-    style MG fill:#7b1fa2,stroke:#4a148c,color:#fff,stroke-width:3px
-    style SGA fill:#00838f,stroke:#006064,color:#fff
-    style SGB fill:#00838f,stroke:#006064,color:#fff
-    style SGC fill:#00838f,stroke:#006064,color:#fff
-    style F1 fill:#ff8f00,stroke:#ef6c00,color:#000
-    style F2 fill:#ff8f00,stroke:#ef6c00,color:#000
-    style F3 fill:#ff8f00,stroke:#ef6c00,color:#000
-    style F4 fill:#ff8f00,stroke:#ef6c00,color:#000
-    style F5 fill:#ff8f00,stroke:#ef6c00,color:#000
-    style Q1 fill:#43a047,stroke:#2e7d32,color:#fff
-    style Q2 fill:#43a047,stroke:#2e7d32,color:#fff
-    style Q3 fill:#43a047,stroke:#2e7d32,color:#fff
+    style RG fill:#ad1457,stroke:#880e4f,color:#fff,stroke-width:3px
+    style BG1 fill:#00695c,stroke:#004d40,color:#fff
+    style BG2 fill:#00695c,stroke:#004d40,color:#fff
+    style BG3 fill:#00695c,stroke:#004d40,color:#fff
+    style FN1 fill:#ef6c00,stroke:#e65100,color:#fff
+    style FN2 fill:#ef6c00,stroke:#e65100,color:#fff
+    style FN3 fill:#ef6c00,stroke:#e65100,color:#fff
+    style FN4 fill:#ef6c00,stroke:#e65100,color:#fff
+    style FN5 fill:#ef6c00,stroke:#e65100,color:#fff
+    style QL1 fill:#5e35b1,stroke:#4527a0,color:#fff
+    style QL2 fill:#5e35b1,stroke:#4527a0,color:#fff
+    style QL3 fill:#5e35b1,stroke:#4527a0,color:#fff

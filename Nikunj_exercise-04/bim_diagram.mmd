@@ -1,30 +1,24 @@
 stateDiagram-v2
-    [*] --> Unregistered
+    [*] --> Idle
     
-    Unregistered --> Registering: Submit Details
-    Registering --> AccountActive: Verification OK
-    Registering --> Unregistered: Verification Failed
+    Idle --> Browsing: Open App
+    Browsing --> Claimed: Select Scooter
+    Browsing --> Idle: Exit App
     
-    AccountActive --> Searching: Find Vehicle
-    Searching --> VehicleBooked: Select Vehicle
-    Searching --> AccountActive: None Available
+    Claimed --> Active: Unlock via BT/QR
+    Claimed --> ClaimExpired: 7 min timeout
+    ClaimExpired --> Browsing: Try Again
     
-    VehicleBooked --> VehicleActivated: Confirm Booking
-    VehicleBooked --> AccountActive: Booking Timeout
+    Active --> Concluding: End Ride
+    Active --> DeviceOffline: Network Lost
+    DeviceOffline --> Active: Reconnect
     
-    VehicleActivated --> InTransit: Start Moving
-    InTransit --> TripEnding: End Ride
-    InTransit --> EmergencyStop: Vehicle Error
+    Concluding --> Settling: Lock Engaged
+    Settling --> Complete: Payment OK
+    Settling --> PaymentHold: Auth Failed
     
-    EmergencyStop --> AccountActive: Fare Waived
+    PaymentHold --> Settling: Alternate Card
+    PaymentHold --> Suspended: 72h Grace Expired
     
-    TripEnding --> FareCalculation: Lock Confirmed
-    FareCalculation --> PaymentPending: Display Fare
-    PaymentPending --> TransactionComplete: Payment OK
-    PaymentPending --> PaymentRetry: Payment Rejected
-    
-    PaymentRetry --> PaymentPending: Retry
-    PaymentRetry --> Suspended: Max Retries
-    
-    TransactionComplete --> AccountActive: Ready
+    Complete --> Idle: New Session
     Suspended --> [*]

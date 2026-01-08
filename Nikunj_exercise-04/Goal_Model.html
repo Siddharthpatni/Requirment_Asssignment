@@ -17,8 +17,8 @@
         }
 
         body {
-            font-family: 'Times New Roman', Georgia, serif;
-            font-size: 11pt;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 10.5pt;
             line-height: 1.4;
             color: #000;
             background: white;
@@ -29,24 +29,24 @@
 
         .header {
             text-align: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #000;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 3px double #000;
         }
 
         .header h1 {
-            font-size: 16pt;
+            font-size: 14pt;
             font-weight: bold;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
         }
 
         .header-meta {
-            font-size: 10pt;
-            line-height: 1.6;
+            font-size: 9pt;
+            line-height: 1.4;
         }
 
         .diagram-section {
-            margin: 20px 0;
+            margin: 15px 0;
             text-align: center;
         }
 
@@ -56,37 +56,54 @@
         }
 
         .figure-caption {
-            font-size: 10pt;
+            font-size: 9pt;
             font-style: italic;
-            margin-top: 10px;
+            margin-top: 8px;
             text-align: center;
         }
 
         .legend {
-            margin-top: 20px;
-            padding: 15px;
-            border: 1px solid #ccc;
-            background: #f9f9f9;
+            margin-top: 15px;
+            padding: 12px;
+            border: 1px solid #666;
+            background: #f5f5f5;
         }
 
         .legend h3 {
-            font-size: 11pt;
-            margin-bottom: 10px;
+            font-size: 10pt;
+            margin-bottom: 8px;
         }
 
         .legend-item {
             display: inline-block;
-            margin: 5px 15px 5px 0;
-            font-size: 10pt;
+            margin: 4px 12px 4px 0;
+            font-size: 9pt;
         }
 
         .legend-color {
             display: inline-block;
-            width: 16px;
-            height: 16px;
+            width: 14px;
+            height: 14px;
             vertical-align: middle;
-            margin-right: 5px;
+            margin-right: 4px;
             border: 1px solid #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 9pt;
+            margin-top: 12px;
+        }
+
+        th,
+        td {
+            border: 1px solid #333;
+            padding: 4px 6px;
+        }
+
+        th {
+            background: #ddd;
         }
     </style>
 </head>
@@ -94,77 +111,69 @@
 <body>
 
     <div class="header">
-        <h1>AOM Goal Model: E-Scooter Ride-Share System</h1>
+        <h1>AOM Goal Model: E-Scooter Mobility Platform</h1>
         <div class="header-meta">
             <strong>TU Clausthal</strong> | Institut für Software and Systems Engineering<br>
-            <strong>Course:</strong> Requirements Engineering | <strong>Exercise:</strong> 04<br>
-            <strong>Submitted By:</strong> Nikunj | <strong>Date:</strong> 11.01.2026
+            <strong>Module:</strong> Requirements Engineering | <strong>Task:</strong> 04<br>
+            <strong>Author:</strong> Nikunj | <strong>Date:</strong> 11.01.2026
         </div>
     </div>
 
     <div class="diagram-section">
         <img src="Goal_Hierarchy_Nikunj.png" alt="AOM Goal Hierarchy Diagram">
-        <p class="figure-caption">Figure: AOM Goal Hierarchy Model - Three-Level Structure</p>
+        <p class="figure-caption">Figure: AOM Goal Hierarchy - Three-Level Decomposition</p>
     </div>
 
     <div class="legend">
-        <h3>Legend</h3>
+        <h3>Color Legend</h3>
         <div class="legend-item">
-            <span class="legend-color" style="background: #7b1fa2;"></span>
-            Level 1: Main Goal
+            <span class="legend-color" style="background: #ad1457;"></span>
+            Root Goal (Level 1)
         </div>
         <div class="legend-item">
-            <span class="legend-color" style="background: #00838f;"></span>
-            Level 2: Sub-Goals
+            <span class="legend-color" style="background: #00695c;"></span>
+            Branch Goals (Level 2)
         </div>
         <div class="legend-item">
-            <span class="legend-color" style="background: #ff8f00;"></span>
-            Level 3: Functional Goals
+            <span class="legend-color" style="background: #ef6c00;"></span>
+            Functional Goals (Level 3)
         </div>
         <div class="legend-item">
-            <span class="legend-color" style="background: #43a047;"></span>
-            Level 3: Quality Goals
+            <span class="legend-color" style="background: #5e35b1;"></span>
+            Quality Goals (Level 3)
         </div>
     </div>
 
-    <div style="margin-top: 20px;">
-        <h3 style="font-size: 11pt; margin-bottom: 8px;">Goal Descriptions</h3>
-        <table style="width: 100%; border-collapse: collapse; font-size: 10pt;">
-            <tr>
-                <th style="border: 1px solid #000; padding: 5px; background: #e0e0e0; width: 20%;">Goal ID</th>
-                <th style="border: 1px solid #000; padding: 5px; background: #e0e0e0;">Description</th>
-            </tr>
-            <tr>
-                <td style="border: 1px solid #000; padding: 5px;">MG</td>
-                <td style="border: 1px solid #000; padding: 5px;">Operate E-Scooter Ride-Share Service (Main Goal)</td>
-            </tr>
-            <tr>
-                <td style="border: 1px solid #000; padding: 5px;">SG-A</td>
-                <td style="border: 1px solid #000; padding: 5px;">Manage Customer Lifecycle (Registration, Security)
-                </td>
-            </tr>
-            <tr>
-                <td style="border: 1px solid #000; padding: 5px;">SG-B</td>
-                <td style="border: 1px solid #000; padding: 5px;">Manage Vehicle Operations (Booking, Trip Management,
-                    Fleet)</td>
-            </tr>
-            <tr>
-                <td style="border: 1px solid #000; padding: 5px;">SG-C</td>
-                <td style="border: 1px solid #000; padding: 5px;">Manage Financial Processing (Billing, Fee Settlement)
-                </td>
-            </tr>
-            <tr>
-                <td style="border: 1px solid #000; padding: 5px;">F-1 to F-5</td>
-                <td style="border: 1px solid #000; padding: 5px;">Functional Goals: Account Creation, Vehicle Booking,
-                    Trip Start, Trip Completion, Fee Settlement</td>
-            </tr>
-            <tr>
-                <td style="border: 1px solid #000; padding: 5px;">Q-1 to Q-3</td>
-                <td style="border: 1px solid #000; padding: 5px;">Quality Goals: Fleet Visibility, Billing Transparency,
-                    Payment Security</td>
-            </tr>
-        </table>
-    </div>
+    <table>
+        <tr>
+            <th style="width: 15%;">Goal ID</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>RG</td>
+            <td>Root Goal: Deliver Urban Micro-Mobility Service</td>
+        </tr>
+        <tr>
+            <td>BG-1</td>
+            <td>Onboard Users (Enrollment + Security)</td>
+        </tr>
+        <tr>
+            <td>BG-2</td>
+            <td>Facilitate Rides (Discovery, Initiation, Termination, Accuracy)</td>
+        </tr>
+        <tr>
+            <td>BG-3</td>
+            <td>Process Transactions (Fare + Fairness)</td>
+        </tr>
+        <tr>
+            <td>FN-1 to FN-5</td>
+            <td>Functional: Enrollment, Discovery, Session Init, Session End, Fare Processing</td>
+        </tr>
+        <tr>
+            <td>QL-1 to QL-3</td>
+            <td>Quality: Location Accuracy, Pricing Fairness, Transaction Security</td>
+        </tr>
+    </table>
 
 </body>
 
