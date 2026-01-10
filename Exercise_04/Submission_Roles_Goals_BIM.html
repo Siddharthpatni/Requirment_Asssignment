@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise 04: E-Scooter Ride-Share System</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 12mm;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Times New Roman', serif;
+            font-size: 10.5pt;
+            line-height: 1.35;
+            color: #000;
+            max-width: 186mm;
+            margin: 0 auto;
+            padding: 8mm;
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #000;
+            padding-bottom: 6px;
+            margin-bottom: 12px;
+        }
+
+        .header h1 {
+            font-size: 13pt;
+            margin-bottom: 4px;
+        }
+
+        .header-info {
+            font-size: 9.5pt;
+        }
+
+        h2 {
+            font-size: 11.5pt;
+            margin: 12px 0 6px 0;
+            border-bottom: 1px solid #666;
+            padding-bottom: 2px;
+        }
+
+        h3 {
+            font-size: 10.5pt;
+            margin: 8px 0 4px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 6px 0;
+            font-size: 9.5pt;
+        }
+
+        th,
+        td {
+            border: 1px solid #333;
+            padding: 4px 6px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background: #e0e0e0;
+            font-weight: bold;
+        }
+
+        .formula {
+            background: #f5f5f5;
+            padding: 6px 10px;
+            margin: 6px 0;
+            font-family: 'Courier New', monospace;
+            border-left: 3px solid #333;
+            font-size: 10pt;
+        }
+
+        .figure {
+            text-align: center;
+            margin: 10px 0;
+            page-break-inside: avoid;
+        }
+
+        .figure img {
+            max-width: 100%;
+            max-height: 380px;
+        }
+
+        .figure-large img {
+            max-width: 100%;
+            max-height: 480px;
+        }
+
+        .figure-caption {
+            font-size: 9pt;
+            font-style: italic;
+            margin-top: 4px;
+        }
+
+        ul,
+        ol {
+            margin: 4px 0 4px 18px;
+        }
+
+        li {
+            margin: 2px 0;
+        }
+
+        p {
+            margin: 4px 0;
+            text-align: justify;
+        }
+
+        .page-break {
+            page-break-before: always;
+        }
+
+        .highlight {
+            background: #fffde7;
+            padding: 2px 4px;
+        }
+
+        .role-goal-table th {
+            background: #1565c0;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>Exercise 04: E-Scooter Ride-Share System</h1>
+        <div class="header-info">
+            <strong>Course:</strong> Requirements Engineering | <strong>University:</strong> TU Clausthal<br>
+            <strong>Student:</strong> Siddharth D. Patni (sp01) | <strong>Date:</strong> 11 January 2026
+        </div>
+    </div>
+
+    <h2>1. Agents and Roles</h2>
+
+    <p>The system comprises three autonomous agents with distinct roles:</p>
+
+    <table>
+        <tr>
+            <th style="width:18%">Agent</th>
+            <th style="width:18%">Role</th>
+            <th style="width:16%">Type</th>
+            <th>Responsibilities</th>
+        </tr>
+        <tr>
+            <td><strong>Commuter</strong></td>
+            <td>User</td>
+            <td>Human Actor</td>
+            <td>Registration, scooter reservation, ride operation, payment authorization</td>
+        </tr>
+        <tr>
+            <td><strong>E-Scooter</strong></td>
+            <td>Vehicle Controller</td>
+            <td>IoT Device</td>
+            <td>Lock/unlock control, GPS tracking, battery monitoring, telemetry reporting</td>
+        </tr>
+        <tr>
+            <td><strong>Backend Server</strong></td>
+            <td>Service Orchestrator</td>
+            <td>Software System</td>
+            <td>Account management, availability coordination, fare computation, payment processing</td>
+        </tr>
+    </table>
+
+    <h2>2. Goals</h2>
+
+    <h3>2.1 Functional Goals</h3>
+
+    <table>
+        <tr>
+            <th style="width:8%">ID</th>
+            <th style="width:22%">Goal</th>
+            <th style="width:18%">Owner Role</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>FG-1</td>
+            <td>User Registration</td>
+            <td>Service Orchestrator</td>
+            <td>Enable account creation with identity and payment validation</td>
+        </tr>
+        <tr>
+            <td>FG-2</td>
+            <td>Scooter Reservation</td>
+            <td>Service Orchestrator</td>
+            <td>Allow users to locate and reserve available scooters</td>
+        </tr>
+        <tr>
+            <td>FG-3</td>
+            <td>Ride Execution</td>
+            <td>Vehicle Controller</td>
+            <td>Unlock scooter and enable motor control during commute</td>
+        </tr>
+        <tr>
+            <td>FG-4</td>
+            <td>Ride Termination</td>
+            <td>Vehicle Controller</td>
+            <td>Lock scooter and transmit final ride telemetry</td>
+        </tr>
+        <tr>
+            <td>FG-5</td>
+            <td>Payment Processing</td>
+            <td>Service Orchestrator</td>
+            <td>Calculate fare and debit registered payment method</td>
+        </tr>
+    </table>
+
+    <h3>2.2 Quality Goals</h3>
+
+    <table>
+        <tr>
+            <th style="width:8%">ID</th>
+            <th style="width:22%">Goal</th>
+            <th style="width:18%">Owner Role</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>QG-1</td>
+            <td>Data Synchronization</td>
+            <td>All Roles</td>
+            <td>Real-time consistency between scooter state and backend</td>
+        </tr>
+        <tr>
+            <td>QG-2</td>
+            <td>Billing Accuracy</td>
+            <td>Service Orchestrator</td>
+            <td>Fare matches actual duration/distance (±1s tolerance)</td>
+        </tr>
+        <tr>
+            <td>QG-3</td>
+            <td>Transaction Security</td>
+            <td>Service Orchestrator</td>
+            <td>PCI-DSS compliant payment encryption</td>
+        </tr>
+    </table>
+
+    <h2>3. Ride Cost Computation</h2>
+
+    <p>The system uses a <strong>hybrid time-and-distance model</strong> as required:</p>
+
+    <div class="formula">
+        <strong>Total Fee</strong> = Base Fee + (Duration × Time Rate) + (Distance × Distance Rate)
+    </div>
+
+    <table>
+        <tr>
+            <th>Parameter</th>
+            <th>Value</th>
+            <th>Rationale</th>
+        </tr>
+        <tr>
+            <td>Base Fee</td>
+            <td>€1.00</td>
+            <td>Fixed unlock cost covering operational overhead</td>
+        </tr>
+        <tr>
+            <td>Time Rate</td>
+            <td>€0.10/min</td>
+            <td>Primary component; time is precisely measurable</td>
+        </tr>
+        <tr>
+            <td>Distance Rate</td>
+            <td>€0.05/km</td>
+            <td>Secondary component; reflects battery usage</td>
+        </tr>
+    </table>
+
+    <p><strong>Example:</strong> 15 min, 3.2 km → €1.00 + (15 × €0.10) + (3.2 × €0.05) = <strong>€2.66</strong></p>
+
+    <h2>4. Goal Hierarchy</h2>
+
+    <p>The Goal Model (see attached PDF) follows a <strong>3-level AOM hierarchy</strong>:</p>
+
+    <table class="role-goal-table">
+        <tr>
+            <th>Level</th>
+            <th>Goals</th>
+            <th>Mapping</th>
+        </tr>
+        <tr>
+            <td><strong>Level 1</strong></td>
+            <td>MG: Manage E-Scooter Ride-Share Operations</td>
+            <td>Root goal</td>
+        </tr>
+        <tr>
+            <td><strong>Level 2</strong></td>
+            <td>SG-1: User Lifecycle, SG-2: Fleet Operations, SG-3: Financial Services</td>
+            <td>Sub-goals</td>
+        </tr>
+        <tr>
+            <td><strong>Level 3</strong></td>
+            <td>FG-1 to FG-5, QG-1 to QG-3</td>
+            <td>Leaf goals</td>
+        </tr>
+    </table>
+
+    <div class="page-break"></div>
+
+    <h2>5. Behavioral Interface Model (BIM)</h2>
+
+    <p>The BIM models the complete ride lifecycle with state transitions mapped to responsible agents:</p>
+
+    <div class="figure figure-large">
+        <img src="BIM_State_Diagram.png" alt="Behavioral Interface Model">
+        <div class="figure-caption">Figure 1: BIM showing state transitions for E-Scooter ride-share system</div>
+    </div>
+
+    <h3>5.1 State-Agent Mapping</h3>
+
+    <table>
+        <tr>
+            <th>State</th>
+            <th>Responsible Agent</th>
+            <th>Goal Covered</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>Register</td>
+            <td>Backend Server</td>
+            <td>FG-1</td>
+            <td>Validate user credentials and payment method</td>
+        </tr>
+        <tr>
+            <td>Reserve</td>
+            <td>Backend Server</td>
+            <td>FG-2</td>
+            <td>Mark selected scooter as reserved</td>
+        </tr>
+        <tr>
+            <td>Unlock</td>
+            <td>E-Scooter</td>
+            <td>FG-3</td>
+            <td>Activate motor and controls</td>
+        </tr>
+        <tr>
+            <td>Commute</td>
+            <td>User + E-Scooter</td>
+            <td>FG-3, QG-1</td>
+            <td>Active ride with real-time telemetry</td>
+        </tr>
+        <tr>
+            <td>EndRide</td>
+            <td>E-Scooter</td>
+            <td>FG-4</td>
+            <td>Lock vehicle and send final data</td>
+        </tr>
+        <tr>
+            <td>ComputeFee</td>
+            <td>Backend Server</td>
+            <td>FG-5, QG-2</td>
+            <td>Calculate fare from telemetry</td>
+        </tr>
+        <tr>
+            <td>DebitPayment</td>
+            <td>Backend Server</td>
+            <td>FG-5, QG-3</td>
+            <td>Process secure payment transaction</td>
+        </tr>
+    </table>
+
+    <h3>5.2 Exception States</h3>
+
+    <table>
+        <tr>
+            <th>Exception</th>
+            <th>Trigger</th>
+            <th>Recovery</th>
+        </tr>
+        <tr>
+            <td>Reservation Timeout</td>
+            <td>No unlock within 10 min</td>
+            <td>Release scooter, no charge</td>
+        </tr>
+        <tr>
+            <td>Payment Pending</td>
+            <td>Transaction declined</td>
+            <td>24h grace period for payment update</td>
+        </tr>
+        <tr>
+            <td>Temporary Block</td>
+            <td>Grace period expired</td>
+            <td>New rides blocked until settled</td>
+        </tr>
+    </table>
+
+    <h2>6. BIM-Goal Traceability</h2>
+
+    <p>Every functional and quality goal is covered by the BIM:</p>
+
+    <table class="role-goal-table">
+        <tr>
+            <th>Goal</th>
+            <th>BIM States</th>
+            <th>Verification</th>
+        </tr>
+        <tr>
+            <td>FG-1 Registration</td>
+            <td>Register</td>
+            <td>✓ Complete</td>
+        </tr>
+        <tr>
+            <td>FG-2 Reservation</td>
+            <td>Reserve, Timeout</td>
+            <td>✓ With exception</td>
+        </tr>
+        <tr>
+            <td>FG-3 Ride Execution</td>
+            <td>Unlock → Commute</td>
+            <td>✓ Complete</td>
+        </tr>
+        <tr>
+            <td>FG-4 Termination</td>
+            <td>EndRide</td>
+            <td>✓ Complete</td>
+        </tr>
+        <tr>
+            <td>FG-5 Payment</td>
+            <td>ComputeFee → DebitPayment</td>
+            <td>✓ With exceptions</td>
+        </tr>
+        <tr>
+            <td>QG-1 Sync</td>
+            <td>All transitions</td>
+            <td>✓ Implicit</td>
+        </tr>
+        <tr>
+            <td>QG-2 Accuracy</td>
+            <td>Commute, ComputeFee</td>
+            <td>✓ Complete</td>
+        </tr>
+        <tr>
+            <td>QG-3 Security</td>
+            <td>DebitPayment</td>
+            <td>✓ Complete</td>
+        </tr>
+    </table>
+
+</body>
+
+</html>

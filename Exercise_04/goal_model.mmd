@@ -1,0 +1,50 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#1565c0', 'primaryTextColor': '#fff', 'primaryBorderColor': '#0d47a1', 'lineColor': '#333', 'secondaryColor': '#2e7d32', 'tertiaryColor': '#f5f5f5'}}}%%
+graph TD
+    subgraph Level1["Level 1: Root Goal"]
+        MG["<b>MG</b><br/>Manage E-Scooter<br/>Ride-Share Operations"]
+    end
+    
+    subgraph Level2["Level 2: Sub-Goals"]
+        SG1["<b>SG-1</b><br/>Manage User<br/>Lifecycle"]
+        SG2["<b>SG-2</b><br/>Manage Fleet<br/>Operations"]
+        SG3["<b>SG-3</b><br/>Manage Financial<br/>Services"]
+    end
+    
+    subgraph Level3["Level 3: Functional Goals"]
+        FG1["FG-1<br/>User Registration"]
+        FG2["FG-2<br/>Scooter Reservation"]
+        FG3["FG-3<br/>Ride Execution"]
+        FG4["FG-4<br/>Ride Termination"]
+        FG5["FG-5<br/>Payment Processing"]
+    end
+    
+    subgraph QualityGoals["Level 3: Quality Goals"]
+        QG1["QG-1<br/>Data Synchronization"]
+        QG2["QG-2<br/>Billing Accuracy"]
+        QG3["QG-3<br/>Transaction Security"]
+    end
+    
+    MG --> SG1
+    MG --> SG2
+    MG --> SG3
+    
+    SG1 --> FG1
+    SG1 --> QG1
+    
+    SG2 --> FG2
+    SG2 --> FG3
+    SG2 --> FG4
+    
+    SG3 --> FG5
+    SG3 --> QG2
+    SG3 --> QG3
+    
+    classDef root fill:#1565c0,stroke:#0d47a1,color:#fff,stroke-width:3px
+    classDef subgoal fill:#2e7d32,stroke:#1b5e20,color:#fff,stroke-width:2px
+    classDef functional fill:#fff,stroke:#333,color:#000,stroke-width:1px
+    classDef quality fill:#e8f5e9,stroke:#2e7d32,color:#000,stroke-width:1px
+    
+    class MG root
+    class SG1,SG2,SG3 subgoal
+    class FG1,FG2,FG3,FG4,FG5 functional
+    class QG1,QG2,QG3 quality

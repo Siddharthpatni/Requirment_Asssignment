@@ -1,30 +1,36 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#e3f2fd', 'primaryTextColor': '#000', 'primaryBorderColor': '#1565c0', 'lineColor': '#333'}}}%%
 stateDiagram-v2
-    [*] --> Register
-    Register --> Reserve: Account Created
-    Reserve --> Unlock: Scooter Selected
-    Reserve --> ReservationTimeout: Timer Expires
-    ReservationTimeout --> [*]: Scooter Released
+    direction TB
     
-    Unlock --> Commute: Motor Activated
-    Commute --> EndRide: Destination Reached
-    EndRide --> ComputeFee: Ride Data Sent
-    ComputeFee --> DebitPayment: Fee Calculated
-    DebitPayment --> PaymentSuccess: Card Approved
-    DebitPayment --> PaymentFailed: Card Declined
+    [*] --> Register: User initiates
     
-    PaymentSuccess --> [*]: Transaction Complete
-    PaymentFailed --> RetryPayment: Notify User
-    RetryPayment --> DebitPayment: Retry
-    RetryPayment --> [*]: Max Retries
-
-    note right of ReservationTimeout
-        Error Recovery:
-        User fails to unlock
-        within 10 minutes
-    end note
+    state "User Registration" as Register
+    state "Scooter Selection" as Reserve
+    state "Vehicle Unlock" as Unlock
+    state "Active Commute" as Commute
+    state "Ride Completion" as EndRide
+    state "Fee Calculation" as ComputeFee
+    state "Payment Transaction" as DebitPayment
+    state "Reservation Expired" as Timeout
+    state "Payment Pending" as PaymentPending
+    state "Account Blocked" as TempBlock
     
-    note right of PaymentFailed
-        Error Recovery:
-        Insufficient funds or
-        card validation failure
-    end note
+    Register --> Reserve: credentials validated
+    Reserve --> Unlock: scooter reserved
+    Reserve --> Timeout: 10 min elapsed
+    Timeout --> [*]: scooter released
+    
+    Unlock --> Commute: motor activated
+    Commute --> EndRide: user ends ride
+    EndRide --> ComputeFee: telemetry sent
+    ComputeFee --> DebitPayment: fare computed
+    
+    DebitPayment --> [*]: payment successful
+    DebitPayment --> PaymentPending: transaction declined
+    PaymentPending --> [*]: user updates payment (24h)
+    PaymentPending --> TempBlock: grace period expired
+    TempBlock --> [*]: balance settled
+    
+    note right of Register: Backend validates<br/>identity & payment
+    note right of Commute: GPS & duration<br/>tracked in real-time
+    note right of PaymentPending: User notification<br/>sent via email/SMS
