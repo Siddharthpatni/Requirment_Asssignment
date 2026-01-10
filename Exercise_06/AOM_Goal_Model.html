@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise 06: AOM Goal Model</title>
+    <style>
+        @page {
+            size: A4 landscape;
+            margin: 10mm;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Times New Roman', serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 10mm;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .header h1 {
+            font-size: 14pt;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 10pt;
+            color: #333;
+        }
+
+        .diagram {
+            text-align: center;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .diagram img {
+            max-width: 100%;
+            max-height: 160mm;
+        }
+
+        .legend {
+            margin-top: 10px;
+            font-size: 9pt;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .legend-box {
+            width: 15px;
+            height: 15px;
+            border: 1px solid #333;
+        }
+
+        .root {
+            background: #1565c0;
+        }
+
+        .subgoal {
+            background: #2e7d32;
+        }
+
+        .functional {
+            background: #fff;
+        }
+
+        .quality {
+            background: #e8f5e9;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>AOM Goal Model: E-Scooter CPN System</h1>
+        <p><strong>Student:</strong> Siddharth D. Patni (sp01) | <strong>Course:</strong> Requirements Engineering |
+            <strong>Exercise:</strong> 06</p>
+    </div>
+    <div class="diagram">
+        <img src="Goal_Model_Diagram.png" alt="AOM Goal Model">
+    </div>
+    <div class="legend">
+        <div class="legend-item">
+            <div class="legend-box root"></div> Root Goal (Level 1)
+        </div>
+        <div class="legend-item">
+            <div class="legend-box subgoal"></div> Sub-Goals (Level 2)
+        </div>
+        <div class="legend-item">
+            <div class="legend-box functional"></div> Functional Goals (Level 3)
+        </div>
+        <div class="legend-item">
+            <div class="legend-box quality"></div> Quality Goals (Level 3)
+        </div>
+    </div>
+</body>
+
+</html>
